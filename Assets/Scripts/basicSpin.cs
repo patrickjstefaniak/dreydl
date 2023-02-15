@@ -7,8 +7,10 @@ public class basicSpin : MonoBehaviour
     private bool isSpinning;
     private Rigidbody rb;
     public float torque = 10;
+    public float rotation = 1;
     private Vector3 startPos;
     private Quaternion startRot;
+    public float maxAngVel;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,7 @@ public class basicSpin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rb.maxAngularVelocity = maxAngVel;
         if(isSpinning){
             addSpin();
         }
@@ -35,8 +38,9 @@ public class basicSpin : MonoBehaviour
     }
 
     void addSpin(){
-        rb.AddTorque(transform.forward * torque);
-
+       rb.AddTorque(transform.forward * torque, ForceMode.VelocityChange);
+        //rb.AddForce(transform.forward * torque, ForceMode.VelocityChange);
+        //transform.Rotate(0,0,rotation);
     }
 
     void drop(){
