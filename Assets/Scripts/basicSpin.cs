@@ -5,12 +5,16 @@ using UnityEngine;
 public class basicSpin : MonoBehaviour
 {
     private bool isSpinning;
+    private bool hasLanded = false;
     private Rigidbody rb;
     public float torque = 10;
     public float rotation = 1;
     private Vector3 startPos;
     private Quaternion startRot;
     public float maxAngVel;
+    public dreydlSensor ds;
+    public dreydlScoring scoring;
+    private string landedFace;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +31,15 @@ public class basicSpin : MonoBehaviour
         rb.maxAngularVelocity = maxAngVel;
         if(isSpinning){
             addSpin();
+        }else{
+            if(!hasLanded && rb.angularVelocity.magnitude == 0){
+                landedFace = ds.getFace();
+                hasLanded = true;
+                scoring.landed(landedFace);
+            }
         }
+
+
         if(Input.GetKeyDown("space")){
             if(isSpinning){
                 drop();
@@ -50,6 +62,7 @@ public class basicSpin : MonoBehaviour
 
     void resetDreydl(){
         isSpinning = true;
+        hasLanded = false;
         rb.useGravity = false;
         transform.position = startPos;
         transform.rotation = startRot;
