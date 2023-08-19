@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DentedPixel;
 
 public class reelSpin : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class reelSpin : MonoBehaviour
         if(isSpinning){
             timer -= Time.deltaTime;
             if(timer <= 0){
-                rb.angularDrag = drag[1];
+                stopSpin();
             }
         }
     }
@@ -41,5 +42,21 @@ public class reelSpin : MonoBehaviour
         timer = Random.Range(timerRange[0], timerRange[1]);
         rb.angularDrag = drag[0];
         rb.AddTorque(transform.forward * Random.Range(spinPower[0],spinPower[1]), ForceMode.VelocityChange);
+    }
+
+    void stopSpin(){
+        rb.angularDrag = drag[1];
+        isSpinning = false;
+        float stopAngle = transform.eulerAngles.z;
+        if( 30 < stopAngle && stopAngle < 150){
+            print(90);
+            LeanTween.rotateZ(gameObject, 90, Random.Range(.2f,.5f)).setEase(LeanTweenType.easeOutBounce);
+        }else if (-90 < stopAngle && stopAngle< 30){
+            print(-30);
+            LeanTween.rotateZ(gameObject, -30, Random.Range(.2f,.5f)).setEase(LeanTweenType.easeOutBounce);
+        }else{
+            print(-150);
+            LeanTween.rotateZ(gameObject, -150, Random.Range(.2f,.5f)).setEase(LeanTweenType.easeOutBounce);
+        }
     }
 }
