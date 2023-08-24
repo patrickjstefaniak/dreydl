@@ -6,6 +6,7 @@ using DentedPixel;
 public class reelSpin : MonoBehaviour
 {
 
+    public int slotID;
     private bool isSpinning;
     private bool hasLanded; 
     public float[] spinPower;
@@ -14,6 +15,7 @@ public class reelSpin : MonoBehaviour
     private Rigidbody rb;
     public float[] timerRange;
     private float timer;
+    public slotManager slotManager;
 
     // Start is called before the first frame update
     void Start()
@@ -49,13 +51,22 @@ public class reelSpin : MonoBehaviour
         isSpinning = false;
         float stopAngle = transform.eulerAngles.z;
         if( 30 < stopAngle && stopAngle < 150){
-            print(90);
+            print(90 + "ב");
+            //ב
+            //result 2
+            slotManager.reportResult(slotID, 2);
             LeanTween.rotateZ(gameObject, 90, Random.Range(.2f,.5f)).setEase(LeanTweenType.easeOutBounce);
         }else if (-90 < stopAngle && stopAngle< 30){
-            print(-30);
+            print(-30 + "א");
+            //א
+            //result 1 
+            slotManager.reportResult(slotID, 1);
             LeanTween.rotateZ(gameObject, -30, Random.Range(.2f,.5f)).setEase(LeanTweenType.easeOutBounce);
         }else{
-            print(-150);
+            print(-150 + "ל");
+            //ל
+            //result 3
+            slotManager.reportResult(slotID, 3);
             LeanTween.rotateZ(gameObject, -150, Random.Range(.2f,.5f)).setEase(LeanTweenType.easeOutBounce);
         }
     }
