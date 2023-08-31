@@ -14,8 +14,12 @@ public class dreydlScoring : MonoBehaviour
     public Text player2T;
     public Text player3T;
     public Text player4T;
+    public Text currentPlayerT;
     public Text potT;
     public Text sideT;
+    public basicSpin bSpin;
+    private float spinTimer;
+    private float nextTurnTimer;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,12 +29,31 @@ public class dreydlScoring : MonoBehaviour
         }
         payAnte();
         updateValues();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(nextTurnTimer >= 0){
+            nextTurnTimer -= Time.deltaTime;
+            if(nextTurnTimer <= 0){
+                bSpin.resetDreydl();
+                spinTimer = Random.Range(10,1);
+            }
+            
+        }else{
+            if(currentPlayer == 0){
+                if(Input.GetKeyDown("space")){
+                    bSpin.dropIt();
+                }
+            }else{
+                spinTimer -= Time.deltaTime;
+                if(spinTimer <= 0){
+                    bSpin.dropIt();
+                }
+            }
+        }
     }
 
     void payAnte(){
@@ -41,11 +64,12 @@ public class dreydlScoring : MonoBehaviour
     }
 
     void updateValues(){
-        playerT.text = "you: " + players[0];
-        player2T.text = "forest: " + players[1];
-        player3T.text = "bugsy: " + players[2];
-        player4T.text = "patrick: " + players[3];
+        playerT.text = "0you: " + players[0];
+        player2T.text = "1forest: " + players[1];
+        player3T.text = "2bugsy: " + players[2];
+        player4T.text = "3patrick: " + players[3];
         potT.text = "pot: " + pot;
+
         sideT.text = lastSide;
     }
 
@@ -54,6 +78,9 @@ public class dreydlScoring : MonoBehaviour
         if(currentPlayer >= 4){
             currentPlayer = 0;
         }
+                currentPlayerT.text = "current player: " + currentPlayer;
+        spinTimer = 999999;
+        nextTurnTimer = 5;
     }
 
     //nothing
@@ -93,7 +120,7 @@ public class dreydlScoring : MonoBehaviour
         default:
             break;
         }
-        if(pot <= 1){
+        if(pot < 1){
             payAnte();
         }
         updateValues();

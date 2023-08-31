@@ -40,12 +40,14 @@ public class basicSpin : MonoBehaviour
         }
 
 
-        if(Input.GetKeyDown("space")){
-            if(isSpinning){
-                drop();
-            }else{
-                resetDreydl();
-            }
+        
+    }
+
+    public void dropIt(){
+        if(isSpinning){
+            drop();
+        }else if(hasLanded){
+            resetDreydl();
         }
     }
 
@@ -60,7 +62,7 @@ public class basicSpin : MonoBehaviour
         rb.useGravity = true;
     }
 
-    void resetDreydl(){
+    public void resetDreydl(){
         isSpinning = true;
         hasLanded = false;
         rb.useGravity = false;
