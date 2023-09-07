@@ -10,6 +10,8 @@ public class dreydlScoring : MonoBehaviour
     int[] players;
     int ante = 5;
     string lastSide;
+    bool skipNextPlayer;
+    bool reverseOrder; 
     public Text playerT;
     public Text player2T;
     public Text player3T;
@@ -74,13 +76,24 @@ public class dreydlScoring : MonoBehaviour
     }
 
     void nextTurn(){
-        currentPlayer += 1;
-        if(currentPlayer >= 4){
-            currentPlayer = 0;
+        if(!reverseOrder){
+            currentPlayer += 1;
+            if(currentPlayer > 3){
+                currentPlayer = 0;
+            }
+        }else{
+            currentPlayer -= 1;
+            if(currentPlayer < 0){
+                currentPlayer = 4;
+            }
         }
-                currentPlayerT.text = "current player: " + currentPlayer;
+        currentPlayerT.text = "current player: " + currentPlayer;
         spinTimer = 999999;
         nextTurnTimer = 5;
+        if(skipNextPlayer){
+            skipNextPlayer = false;
+            nextTurn();
+        }
     }
 
     //nothing
@@ -90,8 +103,17 @@ public class dreydlScoring : MonoBehaviour
 
     //ante 5
 
+    int playerToLeft(){
+        int left = currentPlayer ++;
+            if(left >3){
+                left = 0;
+            }
+        return left;
+    }
+
     public void landed(string side){
         lastSide = side;
+        string landedLetter;
         switch (side)
         {
         case "heh":
@@ -100,22 +122,204 @@ public class dreydlScoring : MonoBehaviour
             int half = (int)Mathf.Floor(pot /2);
             players[currentPlayer] += half;
             pot -= half;
+            landedLetter = "heh";
             break;
         case "nun":
         //nothing
             print("nun");
+            landedLetter = "nun";
             break;
         case "gimel":
         //all
             print("gimel");
             players[currentPlayer] += pot;
             pot = 0;
+            landedLetter = "gimel";
             break;
         case "shin":
         //put in
             print("shin");
             players[currentPlayer] -= ante;
             pot += ante;
+            landedLetter = "shin";
+            break;
+        case "Alef":
+            print("Alef");
+            //take one from player to left
+            int left = playerToLeft();
+            players[left] --;
+            players[currentPlayer] ++;
+            landedLetter = "Alef";
+            break;
+        case "Beys":
+            print("Beys");
+            landedLetter = "Beys";
+            //take one from every other player
+            for(int i = 0; i < 4; i++){
+                players[i] --;
+            }
+            players[currentPlayer] += 2;
+            break;
+        case "Daled":
+            print("Daled");
+            //spin again
+            break;
+            landedLetter = "Daled";
+        case "Vov":
+        //everyone puts one in pot
+            print("Vov");
+            for(int i = 0; i < 4; i++){
+                players[i] --;
+            }
+            pot += 4;
+            break;
+            landedLetter = "Vov";
+        case "Zayen":
+        //half
+            print("Zayen");
+            //take one third of pot
+            int half = (int)Mathf.Floor(pot /3);
+            players[currentPlayer] += half;
+            pot -= half;
+            landedLetter = "Zayen";
+            break;
+        case "Khes":
+        //Return 1/2 your gelt to the pot
+            int half = (int)Mathf.Floor(players[currentPlayer] /2);
+            players[currentPlayer] -= half;
+            pot += half;
+            print("Khes");
+            landedLetter = "Khes";
+            break;
+        case "Tes":
+        //Divide the pot amongst the players
+            print("Tes");
+            int half = (int)Mathf.Floor(pot /4);
+            players[currentPlayer] += half;
+            pot = 0;
+            landedLetter = "Tes";
+            break;
+        case "Yud":
+        //Swap gelt with the player to your left
+            print("Yud");
+            int left = playerToLeft();
+            int leftsGelt = players[left];
+            players[left] = players[currentPlayer];
+            players[currentPlayer] = leftsGelt;
+            landedLetter = "Yud";
+            break;
+        case "Khof":
+        //Give one to the player to your left
+            print("Khof");
+            int left = playerToLeft();
+            players[currentPlayer] --;
+            players[left] ++;
+            landedLetter = "Khof";
+            break;
+        case "Lamed":
+        //Player to your left puts one in the pot
+            print("Lamed");
+            landedLetter = "Lamed";
+            int left = playerToLeft();
+            players[left] --;
+            pot ++;
+            break;
+        case "Mem":
+        //Player to your left takes one from the pot
+            print("Mem");
+            int left = playerToLeft();
+            players[left] ++;
+            pot --;
+            landedLetter = "Mem";
+            break;
+        case "Samekh":
+        //All players take one from the pot (starting with player to your left)
+            print("Samekh");
+            landedLetter = "Samekh";
+            int left = playerToLeft();
+            for(int i = 0; i < 3; i++){
+                players[left] ++;
+                pot --;
+                if(pot <= 0){
+                    break;
+                }
+                left ++;
+                if(left > 3){
+                    left = 0;
+                }
+            }
+            break;
+        case "Ayen":
+        //Skip next players turn
+            print("Ayen");
+            skipNextPlayer = true;
+            landedLetter = "Ayen";
+            break;
+        case "Fey":
+        //Player to your left takes half the pot
+            int left = playerToLeft();
+            int half = (int)Mathf.Floor(pot /2);
+            players[left] += half;
+            pot -= half;
+            print("Fey");
+            landedLetter = "Fey";
+            break;
+        case "Tsadek":
+        //Take one from player with most gelt  (take from multiple players if tied)
+            print("Tsadek");
+            int highestAmount = 0;
+            for(int i = 0; i < 4; i++){
+                if(players[i] > highestAmount){
+                    highestAmount = players[i];
+                }
+            }
+            for(int i = 0; i < 4; i++){
+                if(players[i] == highestAmount){
+                    players[i] --;
+                    players[currentPlayer] ++; 
+                }
+            }
+            landedLetter = "Tsadek";
+            break;
+        case "Kuf":
+        //Split the pot with the player to your left
+            print("Kuf");
+            int left = playerToLeft();
+            int half = (int)Mathf.Floor(pot /2);
+            players[left] += half;
+            players[currentPlayer] += half;
+            pot = 0;
+            landedLetter = "Kuf";
+            break;
+        case "Reysh":
+        //Reverse turn order
+            print("Reysh");
+            reverseOrder = true;
+            landedLetter = "Reysh";
+            break;
+        case "Tof":
+        //Pot goes to player with the least gelt
+            print("Tof");
+            int lowestAmount = 99999;
+            for(int i = 0; i < 4; i++){
+                if(players[i] < lowestAmount){
+                    lowestAmount = players[i];
+                }
+            }
+            int numOfLowest;
+            for(int i = 0; i < 4; i++){
+                if(lowestAmount == players[i]){
+                    numOfLowest ++;
+                }
+            }
+            int half = (int)Mathf.Floor(pot /numOfLowest);
+            pot = 0;
+            for(int i = 0; i < 4; i++){
+                if(lowestAmount == players[i]){
+                    players[i] ++;
+                }
+            }
+            landedLetter = "Tof";
             break;
         default:
             break;
