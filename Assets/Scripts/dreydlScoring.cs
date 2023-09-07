@@ -113,13 +113,15 @@ public class dreydlScoring : MonoBehaviour
 
     public void landed(string side){
         lastSide = side;
+        int half;
+        int left;
         string landedLetter;
         switch (side)
         {
         case "heh":
         //half
             print("heh");
-            int half = (int)Mathf.Floor(pot /2);
+            half = (int)Mathf.Floor(pot /2);
             players[currentPlayer] += half;
             pot -= half;
             landedLetter = "heh";
@@ -146,7 +148,7 @@ public class dreydlScoring : MonoBehaviour
         case "Alef":
             print("Alef");
             //take one from player to left
-            int left = playerToLeft();
+             left = playerToLeft();
             players[left] --;
             players[currentPlayer] ++;
             landedLetter = "Alef";
@@ -178,14 +180,14 @@ public class dreydlScoring : MonoBehaviour
         //half
             print("Zayen");
             //take one third of pot
-            int half = (int)Mathf.Floor(pot /3);
+             half = (int)Mathf.Floor(pot /3);
             players[currentPlayer] += half;
             pot -= half;
             landedLetter = "Zayen";
             break;
         case "Khes":
         //Return 1/2 your gelt to the pot
-            int half = (int)Mathf.Floor(players[currentPlayer] /2);
+             half = (int)Mathf.Floor(players[currentPlayer] /2);
             players[currentPlayer] -= half;
             pot += half;
             print("Khes");
@@ -194,7 +196,7 @@ public class dreydlScoring : MonoBehaviour
         case "Tes":
         //Divide the pot amongst the players
             print("Tes");
-            int half = (int)Mathf.Floor(pot /4);
+             half = (int)Mathf.Floor(pot /4);
             players[currentPlayer] += half;
             pot = 0;
             landedLetter = "Tes";
@@ -202,7 +204,7 @@ public class dreydlScoring : MonoBehaviour
         case "Yud":
         //Swap gelt with the player to your left
             print("Yud");
-            int left = playerToLeft();
+             left = playerToLeft();
             int leftsGelt = players[left];
             players[left] = players[currentPlayer];
             players[currentPlayer] = leftsGelt;
@@ -211,7 +213,7 @@ public class dreydlScoring : MonoBehaviour
         case "Khof":
         //Give one to the player to your left
             print("Khof");
-            int left = playerToLeft();
+             left = playerToLeft();
             players[currentPlayer] --;
             players[left] ++;
             landedLetter = "Khof";
@@ -220,14 +222,14 @@ public class dreydlScoring : MonoBehaviour
         //Player to your left puts one in the pot
             print("Lamed");
             landedLetter = "Lamed";
-            int left = playerToLeft();
+             left = playerToLeft();
             players[left] --;
             pot ++;
             break;
         case "Mem":
         //Player to your left takes one from the pot
             print("Mem");
-            int left = playerToLeft();
+             left = playerToLeft();
             players[left] ++;
             pot --;
             landedLetter = "Mem";
@@ -236,7 +238,7 @@ public class dreydlScoring : MonoBehaviour
         //All players take one from the pot (starting with player to your left)
             print("Samekh");
             landedLetter = "Samekh";
-            int left = playerToLeft();
+             left = playerToLeft();
             for(int i = 0; i < 3; i++){
                 players[left] ++;
                 pot --;
@@ -257,8 +259,8 @@ public class dreydlScoring : MonoBehaviour
             break;
         case "Fey":
         //Player to your left takes half the pot
-            int left = playerToLeft();
-            int half = (int)Mathf.Floor(pot /2);
+             left = playerToLeft();
+             half = (int)Mathf.Floor(pot /2);
             players[left] += half;
             pot -= half;
             print("Fey");
@@ -284,8 +286,8 @@ public class dreydlScoring : MonoBehaviour
         case "Kuf":
         //Split the pot with the player to your left
             print("Kuf");
-            int left = playerToLeft();
-            int half = (int)Mathf.Floor(pot /2);
+             left = playerToLeft();
+             half = (int)Mathf.Floor(pot /2);
             players[left] += half;
             players[currentPlayer] += half;
             pot = 0;
@@ -306,13 +308,13 @@ public class dreydlScoring : MonoBehaviour
                     lowestAmount = players[i];
                 }
             }
-            int numOfLowest;
+            int numOfLowest = 0;
             for(int i = 0; i < 4; i++){
                 if(lowestAmount == players[i]){
                     numOfLowest ++;
                 }
             }
-            int half = (int)Mathf.Floor(pot /numOfLowest);
+             half = (int)Mathf.Floor(pot /numOfLowest);
             pot = 0;
             for(int i = 0; i < 4; i++){
                 if(lowestAmount == players[i]){
