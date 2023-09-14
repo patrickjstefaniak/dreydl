@@ -8,10 +8,11 @@ public class dreydlScoring : MonoBehaviour
     int pot = 0;
     int currentPlayer = 0;
     int[] players;
-    int ante = 5;
+    int ante = 1;
     string lastSide;
     bool skipNextPlayer;
     bool reverseOrder; 
+    bool isPlaying = false;
     public Text playerT;
     public Text player2T;
     public Text player3T;
@@ -22,37 +23,35 @@ public class dreydlScoring : MonoBehaviour
     public basicSpin bSpin;
     private float spinTimer;
     private float nextTurnTimer;
+    public mainscore mainscore;
+    public float[] nextTurnTimes;
     // Start is called before the first frame update
     void Start()
     {
         players = new int[4];
-        for(int i = 0; i < 4; i++){
-            players[i] = 25;
-        }
-        payAnte();
-        updateValues();
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(nextTurnTimer >= 0){
-            nextTurnTimer -= Time.deltaTime;
-            if(nextTurnTimer <= 0){
-                bSpin.resetDreydl();
-                spinTimer = Random.Range(10,1);
-            }
-            
-        }else{
-            if(currentPlayer == 0){
-                if(Input.GetKeyDown("space")){
-                    bSpin.dropIt();
+        if(isPlaying){
+            if(nextTurnTimer >= 0){
+                nextTurnTimer -= Time.deltaTime;
+                if(nextTurnTimer <= 0){
+                    bSpin.resetDreydl();
+                    spinTimer = Random.Range(2,1);
                 }
+                
             }else{
-                spinTimer -= Time.deltaTime;
-                if(spinTimer <= 0){
-                    bSpin.dropIt();
+                if(currentPlayer == 0){
+                    if(Input.GetKeyDown("space")){
+                        bSpin.dropIt();
+                    }
+                }else{
+                    spinTimer -= Time.deltaTime;
+                    if(spinTimer <= 0){
+                        bSpin.dropIt();
+                    }
                 }
             }
         }
@@ -66,10 +65,10 @@ public class dreydlScoring : MonoBehaviour
     }
 
     void updateValues(){
-        playerT.text = "0you: " + players[0];
-        player2T.text = "1forest: " + players[1];
-        player3T.text = "2bugsy: " + players[2];
-        player4T.text = "3patrick: " + players[3];
+        playerT.text = "you: " + players[0];
+        player2T.text = "forest: " + players[1];
+        player3T.text = "bugsy: " + players[2];
+        player4T.text = "patrick: " + players[3];
         potT.text = "pot: " + pot;
 
         sideT.text = lastSide;
@@ -84,12 +83,28 @@ public class dreydlScoring : MonoBehaviour
         }else{
             currentPlayer -= 1;
             if(currentPlayer < 0){
-                currentPlayer = 4;
+                currentPlayer = 3;
             }
         }
-        currentPlayerT.text = "current player: " + currentPlayer;
+        switch(currentPlayer){
+            case 0: 
+                currentPlayerT.text = "current player: you";
+                break;
+            case 1: 
+                currentPlayerT.text = "current player: forest";
+                break;
+            case 2: 
+                currentPlayerT.text = "current player: bugsy";
+                break;
+            case 3: 
+                currentPlayerT.text = "current player: patrick";
+                break;
+            default:
+                currentPlayerT.text = "whoops";
+                break;
+        }
         spinTimer = 999999;
-        nextTurnTimer = 5;
+        nextTurnTimer = Random.Range(nextTurnTimes[0], nextTurnTimes[1]);
         if(skipNextPlayer){
             skipNextPlayer = false;
             nextTurn();
@@ -109,6 +124,19 @@ public class dreydlScoring : MonoBehaviour
                 left = 0;
             }
         return left;
+    }
+
+    public void placeBet(int bet){
+        pot = 0;
+        currentPlayer = 0;
+        currentPlayerT.text = "current player: you";
+        nextTurnTimer = 0;
+        for(int i = 0; i < 4; i++){
+            players[i] = bet;
+        }
+        payAnte();
+        updateValues();
+        isPlaying = true;
     }
 
     public void landed(string side){
@@ -326,10 +354,19 @@ public class dreydlScoring : MonoBehaviour
         default:
             break;
         }
-        if(pot < 1){
-            payAnte();
+        if(pot == 0 || players[0] < 0){
+            isPlaying = false;
+            if(players[0] > 0){
+                mainscore.updateScore(false, players[0]);
+            }
+        }else{
+            
+            nextTurn();
         }
         updateValues();
-        nextTurn();
+        // if(pot < 1){
+        //     payAnte();
+        // }
+        
     }
 }
