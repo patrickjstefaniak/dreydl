@@ -1,0 +1,14 @@
+{
+	"scripts": {
+		"0":{
+			"story": "story1",
+			"filename" :"blablabl.wav",
+			"text": "lajsdflkasdfkjlas;dflkjaslkdf;ksa;dlgkjsladfjkasl;djfkl;asjdkf;askjdf;"
+		},
+		"1":{
+			"story": "story1",
+			"filename" :"blablabl.wav",
+			"text": "lajsdflkasdfkjlas;dflkjaslkdf;ksa;dlgkjsladfjkasl;djfkl;asjdkf;askjdf;"
+		}
+	}
+}
