@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class dreydlSensor : MonoBehaviour
 {
-    private GameObject face;
+    private List<GameObject> face;
     // Start is called before the first frame update
     void Start()
     {
-        
+        face = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -18,10 +18,17 @@ public class dreydlSensor : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other){
-        face = other.gameObject;
+        face.Add(other.gameObject);
+        print(other.gameObject.name);
+    }
+
+    void OnTriggerExit(Collider other){
+        face.Remove(other.gameObject);
     }
 
     public string getFace(){
-        return face.name;
+        GameObject go = face[0];
+        face.Clear();
+        return go.name;
     }
 }

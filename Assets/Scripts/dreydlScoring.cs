@@ -25,6 +25,8 @@ public class dreydlScoring : MonoBehaviour
     private float nextTurnTimer;
     public mainscore mainscore;
     public float[] nextTurnTimes;
+    public Text previousT;
+    string hebrewletter;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +41,7 @@ public class dreydlScoring : MonoBehaviour
                 nextTurnTimer -= Time.deltaTime;
                 if(nextTurnTimer <= 0){
                     bSpin.resetDreydl();
-                    spinTimer = Random.Range(2,1);
+                    spinTimer = Random.Range(3,1);
                 }
                 
             }else{
@@ -70,6 +72,7 @@ public class dreydlScoring : MonoBehaviour
         player3T.text = "bugsy: " + players[2];
         player4T.text = "patrick: " + players[3];
         potT.text = "pot: " + pot;
+
 
         sideT.text = lastSide;
     }
@@ -144,6 +147,7 @@ public class dreydlScoring : MonoBehaviour
         int half;
         int left;
         string landedLetter;
+        
         switch (side)
         {
         case "heh":
@@ -153,11 +157,13 @@ public class dreydlScoring : MonoBehaviour
             players[currentPlayer] += half;
             pot -= half;
             landedLetter = "heh";
+            hebrewletter = "ה";
             break;
         case "nun":
         //nothing
             print("nun");
             landedLetter = "nun";
+            hebrewletter = "נ";
             break;
         case "gimel":
         //all
@@ -165,6 +171,7 @@ public class dreydlScoring : MonoBehaviour
             players[currentPlayer] += pot;
             pot = 0;
             landedLetter = "gimel";
+            hebrewletter = "ג";
             break;
         case "shin":
         //put in
@@ -172,6 +179,7 @@ public class dreydlScoring : MonoBehaviour
             players[currentPlayer] -= ante;
             pot += ante;
             landedLetter = "shin";
+            hebrewletter = "ש";
             break;
         case "Alef":
             print("Alef");
@@ -354,6 +362,7 @@ public class dreydlScoring : MonoBehaviour
         default:
             break;
         }
+        previousT.text = hebrewletter + previousT.text;
         if(pot == 0 || players[0] < 0){
             isPlaying = false;
             if(players[0] > 0){

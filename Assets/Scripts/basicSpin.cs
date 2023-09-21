@@ -28,19 +28,38 @@ public class basicSpin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         rb.maxAngularVelocity = maxAngVel;
         if(isSpinning){
             addSpin();
         }else{
             if(!hasLanded && rb.angularVelocity.magnitude == 0 && rb.velocity.magnitude == 0){
                 landedFace = ds.getFace();
+                //landedFace = getFace();
                 hasLanded = true;
+               
                 scoring.landed(landedFace);
+                
             }
         }
 
 
         
+    }
+
+    string getFace(){
+        float z = transform.eulerAngles.z;
+        float x = transform.eulerAngles.x;
+        print("z " + z + " x " + x);
+        if(z >= 87 && z <= 93){
+            return "gimel";
+        }else if(z >= -93 && z <= -87){
+            return "shin";
+        }else if(((z >= -3 && z <= 3) || (z >= 357 && z <= 360)) && x >= -3 && x <= 3){
+            return "heh";
+        }else{
+            return "nun";
+        }
     }
 
     public void dropIt(){
