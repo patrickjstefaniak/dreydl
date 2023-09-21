@@ -41,7 +41,7 @@ public class dreydlScoring : MonoBehaviour
                 nextTurnTimer -= Time.deltaTime;
                 if(nextTurnTimer <= 0){
                     bSpin.resetDreydl();
-                    spinTimer = Random.Range(3,1);
+                    spinTimer = Random.Range(3.3f,0.5f);
                 }
                 
             }else{

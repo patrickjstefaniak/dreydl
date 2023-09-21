@@ -11,13 +11,14 @@ public class basicSpin : MonoBehaviour
     public float rotation = 1;
     private Vector3 startPos;
     private Quaternion startRot;
-    public float maxAngVel;
+    public float maxAngVel = 21;
     public dreydlSensor ds;
     public dreydlScoring scoring;
     private string landedFace;
     // Start is called before the first frame update
     void Start()
     {
+        maxAngVel = Random.Range(26, 18);
         isSpinning = true;
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
@@ -39,7 +40,8 @@ public class basicSpin : MonoBehaviour
                 hasLanded = true;
                
                 scoring.landed(landedFace);
-                
+                maxAngVel = Random.Range(26, 18);
+
             }
         }
 
