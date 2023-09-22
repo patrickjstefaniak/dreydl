@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class basicSpin : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class basicSpin : MonoBehaviour
     public dreydlSensor ds;
     public dreydlScoring scoring;
     private string landedFace;
+    private FMOD.Studio.EventInstance instance;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,10 +29,16 @@ public class basicSpin : MonoBehaviour
         rb.useGravity = false;
         startPos = transform.position;
         startRot = transform.rotation;
+        FMODUnity.RuntimeManager.LoadBank("Master");
+      
     }
 
-    // Update is called once per frame
-    void Update()
+ 
+
+
+
+        // Update is called once per frame
+        void Update()
     {
         
         rb.maxAngularVelocity = maxAngVel;
@@ -40,6 +51,8 @@ public class basicSpin : MonoBehaviour
                 hasLanded = true;
                
                 scoring.landed(landedFace);
+                print("landed face " + landedFace);
+                
                 maxAngVel = Random.Range(26, 18);
 
             }

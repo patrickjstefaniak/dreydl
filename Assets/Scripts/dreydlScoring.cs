@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
+
 
 public class dreydlScoring : MonoBehaviour
 {
@@ -27,10 +29,12 @@ public class dreydlScoring : MonoBehaviour
     public float[] nextTurnTimes;
     public Text previousT;
     string hebrewletter;
+   // private FMOD.Studio.EventInstance instance;
     // Start is called before the first frame update
     void Start()
     {
         players = new int[4];
+        
     }
 
     // Update is called once per frame
@@ -168,11 +172,26 @@ public class dreydlScoring : MonoBehaviour
         case "gimel":
         //all
             print("gimel");
-            players[currentPlayer] += pot;
-            pot = 0;
+
+                players[currentPlayer] += pot;
+
+                pot = 0;
+            
+               
+
+             
             landedLetter = "gimel";
             hebrewletter = "ג";
-            break;
+
+            if (currentPlayer == 0)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Gimel_WIN_DREYDL", GameObject.Find("dreydl").transform.position);
+                }
+            else
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/OtherGimel", GameObject.Find("dreydl").transform.position);
+                }
+                break;
         case "shin":
         //put in
             print("shin");
