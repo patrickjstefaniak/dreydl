@@ -50,7 +50,8 @@ public class dreydlScoring : MonoBehaviour
                 
             }else{
                 if(currentPlayer == 0){
-                    if(Input.GetKeyDown("space")){
+                    if(Input.GetKeyDown("space") || Input.GetKeyDown("f"))
+                    {
                         bSpin.dropIt();
                     }
                 }else{
