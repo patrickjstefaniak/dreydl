@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 
 public class dreydlgamemanager : MonoBehaviour
 {
 
     public dreydlScoring dreydlGame;
     public mainscore mainscore;
+    public GameObject cashoutGO;
+    bool isActive;
     // Start is called before the first frame update
     void Start()
     {
-        
+        isActive = true;
     }
 
     // Update is called once per frame
@@ -45,6 +49,7 @@ public class dreydlgamemanager : MonoBehaviour
         if (Input.GetKey(KeyCode.UpArrow))
         {
             print("Cashout");
+            cashOut(mainscore.getScore());
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
@@ -68,5 +73,20 @@ public class dreydlgamemanager : MonoBehaviour
     void placeBet(int bet){
         mainscore.updateScore(true, -1 * bet);
         dreydlGame.placeBet(bet);
+    }
+
+    public async void cashOut(int amount){
+        if(isActive){
+            isActive = false;
+            //open cashout scene
+            print("cash out: " + amount);
+            // string pdfFilePath = $"/Users/forest/Documents/Cash_Out_Voucher_DREYDL/{amount}.pdf";
+            // PrintPDF.pdfFilePath = pdfFilePath;
+            // GetComponent<PrintPDF>().Print();
+            cashoutGO.SetActive(true);
+            await Task.Delay(5000);
+            SceneManager.LoadScene("titleScreen", LoadSceneMode.Additive);
+            SceneManager.UnloadScene("dreydl_spin");
+        }
     }
 }

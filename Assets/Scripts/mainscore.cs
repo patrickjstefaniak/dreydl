@@ -8,6 +8,7 @@ public class mainscore : MonoBehaviour
 
     public Text ms;
     public Text uwin;
+    public dreydlgamemanager dgm;
     int score;
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,10 @@ public class mainscore : MonoBehaviour
         
     }
 
+    public int getScore(){
+        return score;
+    }
+
     public void updateScore(bool isBet, int change){
         score += change;
         ms.text = "score: " + score;
@@ -28,6 +33,9 @@ public class mainscore : MonoBehaviour
             uwin.text = "you bet: " + change;
         }else{
             uwin.text = "you win: " + change;
+        }
+        if(score <= 0){
+            dgm.cashOut(0);
         }
     }
 }
