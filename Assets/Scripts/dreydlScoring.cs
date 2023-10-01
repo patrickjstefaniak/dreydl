@@ -53,6 +53,7 @@ public class dreydlScoring : MonoBehaviour
                     if(Input.GetKeyDown("space") || Input.GetKeyDown("f"))
                     {
                         bSpin.dropIt();
+                        FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
                     }
                 }else{
                     spinTimer -= Time.deltaTime;
@@ -163,12 +164,14 @@ public class dreydlScoring : MonoBehaviour
             pot -= half;
             landedLetter = "heh";
             hebrewletter = "ה";
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/Heh", GameObject.Find("dreydl").transform.position);
             break;
         case "nun":
         //nothing
             print("nun");
             landedLetter = "nun";
             hebrewletter = "נ";
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/Nun", GameObject.Find("dreydl").transform.position);
             break;
         case "gimel":
         //all
@@ -200,6 +203,7 @@ public class dreydlScoring : MonoBehaviour
             pot += ante;
             landedLetter = "shin";
             hebrewletter = "ש";
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/Shin", GameObject.Find("dreydl").transform.position);
             break;
         case "Alef":
             print("Alef");
