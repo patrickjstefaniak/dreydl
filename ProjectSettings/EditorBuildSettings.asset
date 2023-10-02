@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/dreydl_spin.unity
     guid: 948df50bcecf93440a7bbbe64ab34e75
+  - enabled: 1
+    path: Assets/Scenes/slotmachine.unity
+    guid: 1808a7bd4e448c943ba259c89a817eb8
   m_configObjects: {}

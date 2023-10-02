@@ -10,6 +10,8 @@ public class basicSpin : MonoBehaviour
     private Rigidbody rb;
     public float torque = 10;
     public float rotation = 1;
+    public float throwForce;
+    public float throwTorque;
     private Vector3 startPos;
     private Quaternion startRot;
     public float maxAngVel = 21;
@@ -94,6 +96,8 @@ public class basicSpin : MonoBehaviour
     void drop(){
         isSpinning = false;
         rb.useGravity = true;
+        rb.AddForce(Random.Range(-throwForce,throwForce),0,Random.Range(-throwForce,throwForce));
+        rb.AddTorque(Random.Range(-throwTorque,throwTorque),0,Random.Range(-throwTorque,throwTorque));
     }
 
     public void resetDreydl(){

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class mainscore : MonoBehaviour
 {
@@ -9,11 +10,15 @@ public class mainscore : MonoBehaviour
     public Text ms;
     public Text uwin;
     public dreydlgamemanager dgm;
+    public GameObject dreydlCamera;
+    public ParticleSystem ps;
     int score;
     // Start is called before the first frame update
     void Start()
     {
         score = 18; 
+        var emission = ps.emission;
+        emission.rate = 0;
     }
 
     // Update is called once per frame
@@ -33,9 +38,22 @@ public class mainscore : MonoBehaviour
             uwin.text = "you bet: " + change;
         }else{
             uwin.text = "you win: " + change;
+            //if(Random.Range(0,100) < 50){
+                //activate slot machine
+               // dgm.activateSlot();
+                //dreydlCamera.SetActive(false);
+                coinBust(change, 2000);
+            //}
         }
         if(score <= 0){
             dgm.cashOut(0);
         }
+    }
+
+    public async void coinBust(float win, int time){
+        var emission = ps.emission;
+        emission.rate = win;
+        await Task.Delay(time);
+        emission.rate = 0;
     }
 }

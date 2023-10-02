@@ -97,9 +97,14 @@ public class dreydlgamemanager : MonoBehaviour
             // PrintPDF.pdfFilePath = pdfFilePath;
             // GetComponent<PrintPDF>().Print();
             cashoutGO.SetActive(true);
+            mainscore.coinBust(amount, 4500);
             await Task.Delay(5000);
             SceneManager.LoadScene("titleScreen", LoadSceneMode.Additive);
             SceneManager.UnloadScene("dreydl_spin");
         }
+    }
+
+    public void activateSlot(){
+        SceneManager.LoadScene("slotmachine", LoadSceneMode.Additive);
     }
 }
