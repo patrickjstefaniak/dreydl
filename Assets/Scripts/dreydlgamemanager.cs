@@ -93,6 +93,7 @@ public class dreydlgamemanager : MonoBehaviour
             isActive = false;
             //open cashout scene
             print("cash out: " + amount);
+            FMODUnity.RuntimeManager.PlayOneShot("event:/cashOut");
             // string pdfFilePath = $"/Users/forest/Documents/Cash_Out_Voucher_DREYDL/{amount}.pdf";
             // PrintPDF.pdfFilePath = pdfFilePath;
             // GetComponent<PrintPDF>().Print();
