@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using FMODUnity;
 
 public class mainscore : MonoBehaviour
 {
@@ -43,6 +44,10 @@ public class mainscore : MonoBehaviour
                // dgm.activateSlot();
                 //dreydlCamera.SetActive(false);
                 coinBust(change, 2000);
+                if (change >= 1)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot("event:/winCoins");
+            }
             //}
         }
         if(score <= 0){

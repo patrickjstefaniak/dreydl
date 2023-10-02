@@ -19,6 +19,7 @@ public class basicSpin : MonoBehaviour
     public dreydlScoring scoring;
     private string landedFace;
     private FMOD.Studio.EventInstance instance;
+    public int voiceChance; 
 
 
 
@@ -98,6 +99,14 @@ public class basicSpin : MonoBehaviour
         rb.useGravity = true;
         rb.AddForce(Random.Range(-throwForce,throwForce),0,Random.Range(-throwForce,throwForce));
         rb.AddTorque(Random.Range(-throwTorque,throwTorque),0,Random.Range(-throwTorque,throwTorque));
+        voiceChance = Random.Range(4, 1);
+        print(voiceChance);
+  
+
+        if (voiceChance != 3)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot("event:/cardPlayer");
+        }
     }
 
     public void resetDreydl(){
