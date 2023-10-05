@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DentedPixel;
 using FMODUnity;
+using System.Threading.Tasks;
+using UnityEngine.UI;
 
 public class reelSpin : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class reelSpin : MonoBehaviour
     public float[] timerRange;
     private float timer;
     public slotManager slotManager;
+    private Text previousT;
 
 
     public int stopCount;
@@ -27,7 +30,7 @@ public class reelSpin : MonoBehaviour
         stopCount = 0;
         rb = GetComponent<Rigidbody>();
         rb.maxAngularVelocity = maxAngVel;
-   
+        previousT = GameObject.Find("previous (1)").GetComponent<Text>();
 
     }
 
@@ -75,17 +78,20 @@ public class reelSpin : MonoBehaviour
             //ב
             //result 2
             slotManager.reportResult(slotID, 2);
+            previousT.text = "ב" + previousT.text;
             LeanTween.rotateZ(gameObject, 90, Random.Range(.2f,.5f)).setEase(LeanTweenType.easeOutBounce);
         }else if (-90 < stopAngle && stopAngle< 30){
             print(-30 + "א");
             //א
             //result 1 
+            previousT.text = "א" + previousT.text;
             slotManager.reportResult(slotID, 1);
             LeanTween.rotateZ(gameObject, -30, Random.Range(.2f,.5f)).setEase(LeanTweenType.easeOutBounce);
         }else{
             print(-150 + "ל");
             //ל
             //result 3
+            previousT.text = "ל" + previousT.text;
             slotManager.reportResult(slotID, 3);
             LeanTween.rotateZ(gameObject, -150, Random.Range(.2f,.5f)).setEase(LeanTweenType.easeOutBounce);
         }

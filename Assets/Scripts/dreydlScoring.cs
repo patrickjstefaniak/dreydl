@@ -15,6 +15,7 @@ public class dreydlScoring : MonoBehaviour
     bool skipNextPlayer;
     bool reverseOrder; 
     bool isPlaying = false;
+    bool isSlot = false;
     public Text playerT;
     public Text player2T;
     public Text player3T;
@@ -40,29 +41,35 @@ public class dreydlScoring : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isPlaying){
-            if(nextTurnTimer >= 0){
-                nextTurnTimer -= Time.deltaTime;
-                if(nextTurnTimer <= 0){
-                    bSpin.resetDreydl();
-                    spinTimer = Random.Range(3.3f,0.5f);
-                }
-                
-            }else{
-                if(currentPlayer == 0){
-                    if(Input.GetKeyDown("space") || Input.GetKeyDown("f"))
-                    {
-                        bSpin.dropIt();
-                        FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+        if(!isSlot){
+            if(isPlaying){
+                if(nextTurnTimer >= 0){
+                    nextTurnTimer -= Time.deltaTime;
+                    if(nextTurnTimer <= 0){
+                        bSpin.resetDreydl();
+                        spinTimer = Random.Range(3.3f,0.5f);
                     }
+                    
                 }else{
-                    spinTimer -= Time.deltaTime;
-                    if(spinTimer <= 0){
-                        bSpin.dropIt();
+                    if(currentPlayer == 0){
+                        if(Input.GetKeyDown("space") || Input.GetKeyDown("f"))
+                        {
+                            bSpin.dropIt();
+                            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+                        }
+                    }else{
+                        spinTimer -= Time.deltaTime;
+                        if(spinTimer <= 0){
+                            bSpin.dropIt();
+                        }
                     }
                 }
             }
         }
+    }
+
+    public void setSlotMode(bool b){
+        isSlot = b;
     }
 
     void payAnte(){
@@ -387,13 +394,14 @@ public class dreydlScoring : MonoBehaviour
             break;
         }
         previousT.text = hebrewletter + previousT.text;
+        //see if round is over
         if(pot == 0 || players[0] < 0){
             isPlaying = false;
             if(players[0] > 0){
                 mainscore.updateScore(false, players[0]);
             }
+            mainscore.maybeStartSlot();
         }else{
-            
             nextTurn();
         }
         updateValues();

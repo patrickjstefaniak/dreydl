@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2200,7 +2200,8 @@ MonoBehaviour:
   ms: {fileID: 1338354228}
   uwin: {fileID: 1416237661}
   dgm: {fileID: 10433885}
-  dreydlCamera: {fileID: 1646572106}
+  ds: {fileID: 754068817}
+  dreydlCamera: {fileID: 832149485634640682}
   ps: {fileID: 1887333622}
 --- !u!114 &1338354228
 MonoBehaviour:
@@ -2296,6 +2297,7 @@ MonoBehaviour:
   ms: {fileID: 1416237661}
   uwin: {fileID: 0}
   dgm: {fileID: 0}
+  ds: {fileID: 0}
   dreydlCamera: {fileID: 0}
   ps: {fileID: 0}
 --- !u!114 &1416237661
@@ -2488,6 +2490,7 @@ MonoBehaviour:
   maxAngVel: 12.05
   ds: {fileID: 1592565546}
   scoring: {fileID: 754068817}
+  voiceChance: 0
 --- !u!54 &1496268446
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8557,6 +8560,7 @@ MonoBehaviour:
   maxAngVel: 21.5
   ds: {fileID: 1592565546}
   scoring: {fileID: 754068817}
+  voiceChance: 0
 --- !u!114 &832149485634640686
 MonoBehaviour:
   m_ObjectHideFlags: 0
