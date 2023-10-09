@@ -12,6 +12,7 @@ public class dreydlgamemanager : MonoBehaviour
     public mainscore mainscore;
     public GameObject cashoutGO;
     bool isActive;
+    public List<GameObject> cashOutComponents = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
@@ -98,8 +99,9 @@ public class dreydlgamemanager : MonoBehaviour
             // PrintPDF.pdfFilePath = pdfFilePath;
             // GetComponent<PrintPDF>().Print();
             cashoutGO.SetActive(true);
+            displayCashout(amount);
             mainscore.coinBust(amount, 4500);
-            await Task.Delay(5000);
+            await Task.Delay(4000);
             SceneManager.LoadScene("titleScreen", LoadSceneMode.Additive);
             SceneManager.UnloadScene("dreydl_spin");
         }
@@ -107,5 +109,40 @@ public class dreydlgamemanager : MonoBehaviour
 
     public void activateSlot(){
         SceneManager.LoadScene("slotmachine", LoadSceneMode.Additive);
+    }
+
+    async void displayCashout(int cashoutNumber)
+    {
+        if (cashoutNumber > 0 && cashoutNumber <= 100)
+        {
+            TurnOnCashoutComponent(cashoutNumber);
+           // await Task.Delay(9000);
+           // TurnOffCashoutComponent(cashoutNumber);
+        }
+        else if (cashoutNumber >= 100)
+            {
+                TurnOnCashoutComponent(100);
+             //   await Task.Delay(9000);
+             //   TurnOffCashoutComponent(100);
+            }
+
+
+
+    }
+    public void TurnOnCashoutComponent(int index)
+    {
+        print("turning UI on");
+        if (index >= 0 && index < cashOutComponents.Count)
+        {
+            cashOutComponents[index].SetActive(true);
+        }
+    }
+    public void TurnOffCashoutComponent(int index)
+    {
+        print("turning UI off");
+        if (index >= 0 && index < cashOutComponents.Count)
+        {
+            cashOutComponents[index].SetActive(false);
+        }
     }
 }

@@ -31,6 +31,7 @@ public class dreydlScoring : MonoBehaviour
     public float[] nextTurnTimes;
     public Text previousT;
     public List<GameObject> uiComponents = new List<GameObject>();
+    public List<GameObject> cashOutComponents = new List<GameObject>();
     string hebrewletter;
    // private FMOD.Studio.EventInstance instance;
     // Start is called before the first frame update
@@ -90,6 +91,24 @@ public class dreydlScoring : MonoBehaviour
             uiComponents[index].SetActive(false);
         }
     }
+    public void TurnOnCashoutComponent(int index)
+    {
+        print("turning UI on");
+        if (index >= 0 && index < cashOutComponents.Count)
+        {
+            cashOutComponents[index].SetActive(true);
+        }
+    }
+    public void TurnOffCashoutComponent(int index)
+    {
+        print("turning UI off");
+        if (index >= 0 && index < cashOutComponents.Count)
+        {
+            cashOutComponents[index].SetActive(false);
+        }
+    }
+
+
 
     void payAnte(){
         for(int i = 0; i < 4; i++){
@@ -179,6 +198,15 @@ public class dreydlScoring : MonoBehaviour
         TurnOnUIComponent(letterNumber);
         await Task.Delay(2000);
         TurnOffUIComponent(letterNumber);
+
+
+    }
+
+    public async void displayCashout(int cashoutNumber)
+    {
+        TurnOnCashoutComponent(cashoutNumber);
+        await Task.Delay(3000);
+        TurnOffCashoutComponent(cashoutNumber);
 
 
     }
