@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using FMODUnity;
+using System.Threading.Tasks;
 
 
 public class dreydlScoring : MonoBehaviour
@@ -29,6 +30,7 @@ public class dreydlScoring : MonoBehaviour
     public mainscore mainscore;
     public float[] nextTurnTimes;
     public Text previousT;
+    public List<GameObject> uiComponents = new List<GameObject>();
     string hebrewletter;
    // private FMOD.Studio.EventInstance instance;
     // Start is called before the first frame update
@@ -70,6 +72,23 @@ public class dreydlScoring : MonoBehaviour
 
     public void setSlotMode(bool b){
         isSlot = b;
+    }
+    public void TurnOnUIComponent(int index)
+    {
+        print("turning UI on");
+        if (index >= 0 && index < uiComponents.Count)
+        {
+            uiComponents[index].SetActive(true);
+        }
+    }
+
+    public void TurnOffUIComponent(int index)
+    {
+        print("turning UI off");
+        if (index >= 0 && index < uiComponents.Count)
+        {
+            uiComponents[index].SetActive(false);
+        }
     }
 
     void payAnte(){
@@ -155,6 +174,15 @@ public class dreydlScoring : MonoBehaviour
         isPlaying = true;
     }
 
+    async void displayLetter(int letterNumber)
+    {
+        TurnOnUIComponent(letterNumber);
+        await Task.Delay(2000);
+        TurnOffUIComponent(letterNumber);
+
+
+    }
+
     public void landed(string side){
         lastSide = side;
         int half;
@@ -171,15 +199,19 @@ public class dreydlScoring : MonoBehaviour
             pot -= half;
             landedLetter = "heh";
             hebrewletter = "ה";
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/Heh", GameObject.Find("dreydl").transform.position);
-            break;
+            displayLetter(5);
+
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/Heh", GameObject.Find("dreydl").transform.position);
+                break;
         case "nun":
         //nothing
             print("nun");
             landedLetter = "nun";
             hebrewletter = "נ";
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/Nun", GameObject.Find("dreydl").transform.position);
-            break;
+             displayLetter(14);
+
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/Nun", GameObject.Find("dreydl").transform.position);
+                break;
         case "gimel":
         //all
             print("gimel");
@@ -193,8 +225,10 @@ public class dreydlScoring : MonoBehaviour
              
             landedLetter = "gimel";
             hebrewletter = "ג";
+            displayLetter(3);
 
-            if (currentPlayer == 0)
+
+                if (currentPlayer == 0)
                 {
                     FMODUnity.RuntimeManager.PlayOneShot("event:/Gimel_WIN_DREYDL", GameObject.Find("dreydl").transform.position);
                 }
@@ -210,8 +244,9 @@ public class dreydlScoring : MonoBehaviour
             pot += ante;
             landedLetter = "shin";
             hebrewletter = "ש";
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/Shin", GameObject.Find("dreydl").transform.position);
-            break;
+            displayLetter(21);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/Shin", GameObject.Find("dreydl").transform.position);
+                break;
         case "Alef":
             print("Alef");
             //take one from player to left

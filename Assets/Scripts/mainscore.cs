@@ -60,12 +60,12 @@ public class mainscore : MonoBehaviour
     }
 
     public void maybeStartSlot(){
-        //if(Random.Range(0,100) < 50){
+        if(Random.Range(0,100) < 50){
                 //activate slot machine
                 dgm.activateSlot();
                 dreydlCamera.SetActive(false);
                 ds.setSlotMode(true);
-        //}
+        }
     }
 
     public void endSlot(){
