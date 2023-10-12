@@ -8995,6 +8995,30 @@ MonoBehaviour:
   - 2
   - 2
   previousT: {fileID: 486697016}
+  uiComponents:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1490048200}
+  - {fileID: 0}
+  - {fileID: 746213152}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1410508042}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 441777052}
+  - {fileID: 0}
 --- !u!1 &756309843
 GameObject:
   m_ObjectHideFlags: 0
