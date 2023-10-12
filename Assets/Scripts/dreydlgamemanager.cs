@@ -13,6 +13,7 @@ public class dreydlgamemanager : MonoBehaviour
     public GameObject cashoutGO;
     bool isActive;
     public List<GameObject> cashOutComponents = new List<GameObject>();
+    int currentBet = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,11 +48,7 @@ public class dreydlgamemanager : MonoBehaviour
         if (Input.GetKeyDown("f"))
         {
             print("Deal Draw");
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
-        }
-        if (Input.GetKeyDown("f"))
-        {
-            print("Deal Draw");
+            placeBet(0);
             FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
 
@@ -85,8 +82,18 @@ public class dreydlgamemanager : MonoBehaviour
     }
 
     void placeBet(int bet){
-        mainscore.updateScore(true, -1 * bet);
-        dreydlGame.placeBet(bet);
+        
+        if(bet == 0){
+            if(currentBet != 10){
+                dreydlGame.placeBet(currentBet);
+                mainscore.updateScore(true, -1 * currentBet);
+            }
+        }else{
+            mainscore.updateScore(true, -1 * bet);
+            currentBet = bet;
+            dreydlGame.placeBet(bet);
+        }
+        
     }
 
     public async void cashOut(int amount){
@@ -100,8 +107,8 @@ public class dreydlgamemanager : MonoBehaviour
             // GetComponent<PrintPDF>().Print();
             cashoutGO.SetActive(true);
             displayCashout(amount);
-            mainscore.coinBust(amount, 4500);
-            await Task.Delay(4000);
+            mainscore.coinBust(amount, 17000);
+            await Task.Delay(18000);
             SceneManager.LoadScene("titleScreen", LoadSceneMode.Additive);
             SceneManager.UnloadScene("dreydl_spin");
         }
@@ -113,36 +120,21 @@ public class dreydlgamemanager : MonoBehaviour
 
     async void displayCashout(int cashoutNumber)
     {
-        if (cashoutNumber > 0 && cashoutNumber <= 100)
-        {
-            TurnOnCashoutComponent(cashoutNumber);
-           // await Task.Delay(9000);
-           // TurnOffCashoutComponent(cashoutNumber);
-        }
-        else if (cashoutNumber >= 100)
-            {
-                TurnOnCashoutComponent(100);
-             //   await Task.Delay(9000);
-             //   TurnOffCashoutComponent(100);
-            }
-
-
-
-    }
-    public void TurnOnCashoutComponent(int index)
-    {
+        GameObject dreyd = GameObject.Find("dreydl");
         print("turning UI on");
-        if (index >= 0 && index < cashOutComponents.Count)
+        if (cashoutNumber >= 0 && cashoutNumber < cashOutComponents.Count)
         {
-            cashOutComponents[index].SetActive(true);
+            cashOutComponents[cashoutNumber].SetActive(true);
         }
-    }
-    public void TurnOffCashoutComponent(int index)
-    {
+        dreyd.SetActive(false);
+        await Task.Delay(17000);
         print("turning UI off");
-        if (index >= 0 && index < cashOutComponents.Count)
+        if (cashoutNumber >= 0 && cashoutNumber < cashOutComponents.Count)
         {
-            cashOutComponents[index].SetActive(false);
+            cashOutComponents[cashoutNumber].SetActive(false);
         }
+        dreyd.SetActive(true);
     }
+
+
 }

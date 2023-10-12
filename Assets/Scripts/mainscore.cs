@@ -14,6 +14,7 @@ public class mainscore : MonoBehaviour
     public dreydlScoring ds;
     public GameObject dreydlCamera;
     public ParticleSystem ps;
+    GameObject placeBetText;
     int bet;
     int score;
     // Start is called before the first frame update
@@ -22,6 +23,7 @@ public class mainscore : MonoBehaviour
         score = 18; 
         var emission = ps.emission;
         emission.rate = 0;
+        placeBetText = GameObject.Find("placebetflashing");
     }
 
     // Update is called once per frame
@@ -44,9 +46,10 @@ public class mainscore : MonoBehaviour
         if(isBet){
             uwin.text = "you bet: " + change;
             bet = change;
+            placeBetText.SetActive(false);
         }else{
             uwin.text = "you win: " + change;
-            
+            placeBetText.SetActive(true);
             coinBust(change, 2000);
             if (change >= 1)
             {

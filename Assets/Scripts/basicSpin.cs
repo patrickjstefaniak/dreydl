@@ -87,6 +87,7 @@ public class basicSpin : MonoBehaviour
             drop();
         }else if(hasLanded){
             resetDreydl();
+            print("reset dropit");
         }
     }
 
@@ -123,6 +124,7 @@ public class basicSpin : MonoBehaviour
     }
 
     public void resetDreydl(){
+
         isSpinning = true;
         hasLanded = false;
         rb.useGravity = false;

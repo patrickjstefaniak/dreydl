@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,15 +30,13 @@ public class dreydlScoring : MonoBehaviour
     public mainscore mainscore;
     public float[] nextTurnTimes;
     public Text previousT;
-    public List<GameObject> uiComponents = new List<GameObject>();
-    public List<GameObject> cashOutComponents = new List<GameObject>();
     string hebrewletter;
    // private FMOD.Studio.EventInstance instance;
     // Start is called before the first frame update
     void Start()
     {
         players = new int[4];
-        
+        nextTurnTimer = 9999999;
     }
 
     // Update is called once per frame
@@ -50,15 +48,14 @@ public class dreydlScoring : MonoBehaviour
                     nextTurnTimer -= Time.deltaTime;
                     if(nextTurnTimer <= 0){
                         bSpin.resetDreydl();
+                        print("reset update");
                         spinTimer = Random.Range(3.3f,0.5f);
                     }
                     
                 }else{
                     if(currentPlayer == 0){
-                        if(Input.GetKeyDown("space") || Input.GetKeyDown("f"))
-                        {
-                            bSpin.dropIt();
-                            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+                        if (Input.GetKeyDown("space")){
+                            dropIt();
                         }
                     }else{
                         spinTimer -= Time.deltaTime;
@@ -71,44 +68,14 @@ public class dreydlScoring : MonoBehaviour
         }
     }
 
+    public void dropIt(){
+        bSpin.dropIt();
+        FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+    }
+
     public void setSlotMode(bool b){
         isSlot = b;
     }
-    public void TurnOnUIComponent(int index)
-    {
-        print("turning UI on");
-        if (index >= 0 && index < uiComponents.Count)
-        {
-            uiComponents[index].SetActive(true);
-        }
-    }
-
-    public void TurnOffUIComponent(int index)
-    {
-        print("turning UI off");
-        if (index >= 0 && index < uiComponents.Count)
-        {
-            uiComponents[index].SetActive(false);
-        }
-    }
-    public void TurnOnCashoutComponent(int index)
-    {
-        print("turning UI on");
-        if (index >= 0 && index < cashOutComponents.Count)
-        {
-            cashOutComponents[index].SetActive(true);
-        }
-    }
-    public void TurnOffCashoutComponent(int index)
-    {
-        print("turning UI off");
-        if (index >= 0 && index < cashOutComponents.Count)
-        {
-            cashOutComponents[index].SetActive(false);
-        }
-    }
-
-
 
     void payAnte(){
         for(int i = 0; i < 4; i++){
@@ -180,35 +147,20 @@ public class dreydlScoring : MonoBehaviour
         return left;
     }
 
-    public void placeBet(int bet){
+    public async void placeBet(int bet){
         pot = 0;
         currentPlayer = 0;
         currentPlayerT.text = "current player: you";
-        nextTurnTimer = 0;
+        nextTurnTimer = 999;
         for(int i = 0; i < 4; i++){
             players[i] = bet;
         }
         payAnte();
         updateValues();
         isPlaying = true;
-    }
-
-    async void displayLetter(int letterNumber)
-    {
-        TurnOnUIComponent(letterNumber);
-        await Task.Delay(2000);
-        TurnOffUIComponent(letterNumber);
-
-
-    }
-
-    public async void displayCashout(int cashoutNumber)
-    {
-        TurnOnCashoutComponent(cashoutNumber);
-        await Task.Delay(3000);
-        TurnOffCashoutComponent(cashoutNumber);
-
-
+        bSpin.resetDreydl();
+        await Task.Delay((int)(Random.Range(50,600)));
+        dropIt();
     }
 
     public void landed(string side){
@@ -227,19 +179,15 @@ public class dreydlScoring : MonoBehaviour
             pot -= half;
             landedLetter = "heh";
             hebrewletter = "ה";
-            displayLetter(5);
-
-                //FMODUnity.RuntimeManager.PlayOneShot("event:/Heh", GameObject.Find("dreydl").transform.position);
-                break;
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/Heh", GameObject.Find("dreydl").transform.position);
+            break;
         case "nun":
         //nothing
             print("nun");
             landedLetter = "nun";
             hebrewletter = "נ";
-             displayLetter(14);
-
-                //FMODUnity.RuntimeManager.PlayOneShot("event:/Nun", GameObject.Find("dreydl").transform.position);
-                break;
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/Nun", GameObject.Find("dreydl").transform.position);
+            break;
         case "gimel":
         //all
             print("gimel");
@@ -253,10 +201,8 @@ public class dreydlScoring : MonoBehaviour
              
             landedLetter = "gimel";
             hebrewletter = "ג";
-            displayLetter(3);
 
-
-                if (currentPlayer == 0)
+            if (currentPlayer == 0)
                 {
                     FMODUnity.RuntimeManager.PlayOneShot("event:/Gimel_WIN_DREYDL", GameObject.Find("dreydl").transform.position);
                 }
@@ -272,9 +218,8 @@ public class dreydlScoring : MonoBehaviour
             pot += ante;
             landedLetter = "shin";
             hebrewletter = "ש";
-            displayLetter(21);
-                //FMODUnity.RuntimeManager.PlayOneShot("event:/Shin", GameObject.Find("dreydl").transform.position);
-                break;
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/Shin", GameObject.Find("dreydl").transform.position);
+            break;
         case "Alef":
             print("Alef");
             //take one from player to left
@@ -456,6 +401,8 @@ public class dreydlScoring : MonoBehaviour
         default:
             break;
         }
+
+        
         previousT.text = hebrewletter + previousT.text;
         //see if round is over
         if(pot == 0 || players[0] < 0){
