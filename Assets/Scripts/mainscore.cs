@@ -15,7 +15,7 @@ public class mainscore : MonoBehaviour
     public GameObject dreydlCamera;
     public ParticleSystem ps;
     GameObject placeBetText;
-    GameObject dealdrawFlashing;
+   
     int bet;
     int score;
     // Start is called before the first frame update
@@ -25,7 +25,7 @@ public class mainscore : MonoBehaviour
         var emission = ps.emission;
         emission.rate = 0;
         placeBetText = GameObject.Find("placebetflashing");
-        dealdrawFlashing = GameObject.Find("dealdrawFlashing");
+       
     }
 
     // Update is called once per frame
