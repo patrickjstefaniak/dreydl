@@ -32,12 +32,16 @@ public class dreydlScoring : MonoBehaviour
     public Text previousT;
     public List<GameObject> uiComponents = new List<GameObject>();
     string hebrewletter;
-   // private FMOD.Studio.EventInstance instance;
+    bool isFlashing;
+    public GameObject dealdrawFlashing;
+    // private FMOD.Studio.EventInstance instance;
     // Start is called before the first frame update
     void Start()
     {
         players = new int[4];
         nextTurnTimer = 9999999;
+        bool isFlashing = false;
+        //dealdrawFlashing = GameObject.Find("dealdrawFlashing");
     }
 
     // Update is called once per frame
@@ -55,7 +59,9 @@ public class dreydlScoring : MonoBehaviour
                     
                 }else{
                     if(currentPlayer == 0){
+                        dealdrawFlashing.SetActive(true);
                         if (Input.GetKeyDown("space")){
+                            dealdrawFlashing.SetActive(false);
                             dropIt();
                         }
                     }else{
@@ -70,6 +76,8 @@ public class dreydlScoring : MonoBehaviour
     }
 
     public void dropIt(){
+        
+        print("stop flashing");
         bSpin.dropIt();
         FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
     }
