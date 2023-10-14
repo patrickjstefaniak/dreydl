@@ -42,6 +42,8 @@ public class mainscore : MonoBehaviour
         return bet;
     }
 
+  
+
     public void updateScore(bool isBet, int change){
         score += change;
         ms.text = "score: " + score;
@@ -65,7 +67,7 @@ public class mainscore : MonoBehaviour
     }
 
     public void maybeStartSlot(){
-        if(Random.Range(0,100) < 50){
+        if(Random.Range(0,100) < 20){
                 //activate slot machine
                 dgm.activateSlot();
                 dreydlCamera.SetActive(false);

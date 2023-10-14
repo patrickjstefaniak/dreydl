@@ -32,7 +32,7 @@ public class dreydlScoring : MonoBehaviour
     public Text previousT;
     public List<GameObject> uiComponents = new List<GameObject>();
     string hebrewletter;
-    bool isFlashing;
+    bool stopFlashing;
     public GameObject dealdrawFlashing;
     // private FMOD.Studio.EventInstance instance;
     // Start is called before the first frame update
@@ -40,8 +40,8 @@ public class dreydlScoring : MonoBehaviour
     {
         players = new int[4];
         nextTurnTimer = 9999999;
-        bool isFlashing = false;
-        //dealdrawFlashing = GameObject.Find("dealdrawFlashing");
+       
+        stopFlashing = false;
     }
 
     // Update is called once per frame
@@ -59,14 +59,17 @@ public class dreydlScoring : MonoBehaviour
                     
                 }else{
                     if(currentPlayer == 0){
-                        dealdrawFlashing.SetActive(true);
+                        dealdrawFlash();
                         if (Input.GetKeyDown("space")){
-                            dealdrawFlashing.SetActive(false);
+                            stopFlashing = true;
+                            dealdrawFlash();
                             dropIt();
                         }
                     }else{
                         spinTimer -= Time.deltaTime;
-                        if(spinTimer <= 0){
+                        
+                       
+                        if (spinTimer <= 0){
                             bSpin.dropIt();
                         }
                     }
@@ -75,11 +78,26 @@ public class dreydlScoring : MonoBehaviour
         }
     }
 
+
     public void dropIt(){
         
         print("stop flashing");
         bSpin.dropIt();
         FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+    }
+
+    public void dealdrawFlash()
+    {
+        if(stopFlashing == false)
+        {
+            dealdrawFlashing.SetActive(true);
+      
+        }
+        else
+        {
+            dealdrawFlashing.SetActive(false);
+        }
+
     }
 
     public void setSlotMode(bool b){
@@ -134,13 +152,15 @@ public class dreydlScoring : MonoBehaviour
 
     void nextTurn(){
         if(!reverseOrder){
+            stopFlashing = false;
             currentPlayer += 1;
             if(currentPlayer > 3){
                 currentPlayer = 0;
             }
         }else{
             currentPlayer -= 1;
-            if(currentPlayer < 0){
+            stopFlashing = false;
+            if (currentPlayer < 0){
                 currentPlayer = 3;
             }
         }
