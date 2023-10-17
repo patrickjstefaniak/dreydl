@@ -80,7 +80,7 @@ public class mainscore : MonoBehaviour
     }
 
     public async void maybeStartSlot(){
-        if(Random.Range(0,100) < 100){
+        if(Random.Range(0,100) > 100){
             slotActive = true;
             FMODUnity.RuntimeManager.PlayOneShot("event:/slotFunction");
             //activate slot machine

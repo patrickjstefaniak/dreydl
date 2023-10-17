@@ -22,7 +22,11 @@ public class basicSpin : MonoBehaviour
     private FMOD.Studio.EventInstance instance;
     public int voiceChance;
     private int voiceRange;
-
+    bool is22sided = false;
+    Transform dreydlT;
+    Transform dreydlT22;
+    GameObject followcam;
+    Vector3 followCamDist;
 
 
     // Start is called before the first frame update
@@ -30,12 +34,16 @@ public class basicSpin : MonoBehaviour
     {
         maxAngVel = Random.Range(28, 15);
         isSpinning = true;
-        rb = GetComponent<Rigidbody>();
+        dreydlT = transform.Find("dreydl");
+        dreydlT22 = transform.Find("22 dreydl");
+        rb = dreydlT.gameObject.GetComponent<Rigidbody>();
         rb.useGravity = false;
-        startPos = transform.position;
-        startRot = transform.rotation;
+        
+        startPos = dreydlT.position;
+        startRot = dreydlT.rotation;
         FMODUnity.RuntimeManager.LoadBank("Master");
-      
+        followcam = GameObject.Find("follow cam");
+        followCamDist = followcam.transform.position - dreydlT.position;
     }
 
  
@@ -51,8 +59,8 @@ public class basicSpin : MonoBehaviour
             addSpin();
         }else{
             if(!hasLanded && rb.angularVelocity.magnitude == 0 && rb.velocity.magnitude == 0){
-                landedFace = ds.getFace();
-                //landedFace = getFace();
+                //landedFace = ds.getFace();
+                landedFace = getFace();
                 hasLanded = true;
                
                 scoring.landed(landedFace);
@@ -63,23 +71,34 @@ public class basicSpin : MonoBehaviour
             }
         }
 
+        if(Input.GetKeyDown("o")){
+            set22(!is22sided);
+        }
 
+        if(is22sided){
+            followcam.transform.position = dreydlT22.position + followCamDist;
+        }else{
+            followcam.transform.position = dreydlT.position + followCamDist;
+        }
         
     }
 
+
+
     string getFace(){
-        float z = transform.eulerAngles.z;
-        float x = transform.eulerAngles.x;
-        print("z " + z + " x " + x);
-        if(z >= 87 && z <= 93){
-            return "gimel";
-        }else if(z >= -93 && z <= -87){
-            return "shin";
-        }else if(((z >= -3 && z <= 3) || (z >= 357 && z <= 360)) && x >= -3 && x <= 3){
-            return "heh";
-        }else{
-            return "nun";
+        float highestPos = 0;
+        string highestString = "";
+        Transform d = transform.Find("dreydl");;
+        if(is22sided){
+            d = transform.Find("22 dreydl");
         }
+        foreach(Transform child in d){
+            if(child.position.y > highestPos){
+                highestPos = child.position.y;
+                highestString = child.name;
+            }
+        }
+        return highestString;
     }
 
     public void dropIt(){
@@ -92,7 +111,7 @@ public class basicSpin : MonoBehaviour
     }
 
     void addSpin(){
-       rb.AddTorque(transform.forward * torque, ForceMode.VelocityChange);
+       rb.AddTorque(transform.up * torque, ForceMode.VelocityChange);
         //rb.AddForce(transform.forward * torque, ForceMode.VelocityChange);
         //transform.Rotate(0,0,rotation);
     }
@@ -100,8 +119,8 @@ public class basicSpin : MonoBehaviour
     void drop(){
         isSpinning = false;
         rb.useGravity = true;
-        rb.AddForce(Random.Range(-throwForce,throwForce),0,Random.Range(-throwForce,throwForce));
-        rb.AddTorque(Random.Range(-throwTorque,throwTorque),0,Random.Range(-throwTorque,throwTorque));
+       rb.AddForce(Random.Range(-throwForce,throwForce),0,Random.Range(-throwForce,throwForce));
+       rb.AddTorque(Random.Range(-throwTorque,throwTorque),0,Random.Range(-throwTorque,throwTorque));
         voiceChance = Random.Range(1, 100);
         print(voiceChance);
   
@@ -123,12 +142,26 @@ public class basicSpin : MonoBehaviour
 
     }
 
+    public void set22(bool b){
+        is22sided = b;
+        if(b){
+            rb = dreydlT22.gameObject.GetComponent<Rigidbody>();
+            dreydlT22.gameObject.SetActive(true);
+            dreydlT.gameObject.SetActive(false);
+        }else{
+            rb = dreydlT.gameObject.GetComponent<Rigidbody>();
+            dreydlT22.gameObject.SetActive(false);
+            dreydlT.gameObject.SetActive(true);
+        }
+    }
+
     public void resetDreydl(){
 
         isSpinning = true;
         hasLanded = false;
         rb.useGravity = false;
-        transform.position = startPos;
-        transform.rotation = startRot;
+        rb.position = startPos;
+        rb.rotation = startRot;
+        
     }
 }
