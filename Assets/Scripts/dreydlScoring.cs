@@ -24,12 +24,15 @@ public class dreydlScoring : MonoBehaviour
     public Text currentPlayerT;
     public Text potT;
     public Text sideT;
+    public Text ruleT;
     public basicSpin bSpin;
     private float spinTimer;
     private float nextTurnTimer;
     public mainscore mainscore;
     public float[] nextTurnTimes;
     public Text previousT;
+    string landedLetter;
+    string landedRule;
     public List<GameObject> uiComponents = new List<GameObject>();
     string hebrewletter;
     bool stopFlashing;
@@ -145,7 +148,7 @@ public class dreydlScoring : MonoBehaviour
         player3T.text = "bugsy: " + players[2];
         player4T.text = "patrick: " + players[3];
         potT.text = "pot: " + pot;
-
+        ruleT.text = landedRule;
 
         sideT.text = lastSide;
     }
@@ -224,22 +227,23 @@ public class dreydlScoring : MonoBehaviour
         lastSide = side;
         int half;
         int left;
-        string landedLetter;
+
         
         switch (side)
         {
-        case "heh":
+        case "Heh":
         //half
             print("heh");
             half = (int)Mathf.Floor(pot /2);
             players[currentPlayer] += half;
             pot -= half;
+            landedRule = "";
             landedLetter = "heh";
             hebrewletter = "ה";
                 displayLetter(5);
                 //FMODUnity.RuntimeManager.PlayOneShot("event:/Heh", GameObject.Find("dreydl").transform.position);
                 break;
-        case "nun":
+        case "Nun":
         //nothing
             print("nun");
             landedLetter = "nun";
@@ -247,7 +251,7 @@ public class dreydlScoring : MonoBehaviour
                 displayLetter(14);
                 //FMODUnity.RuntimeManager.PlayOneShot("event:/Nun", GameObject.Find("dreydl").transform.position);
                 break;
-        case "gimel":
+        case "Gimel":
         //all
             print("gimel");
                 displayLetter(3);
@@ -271,7 +275,7 @@ public class dreydlScoring : MonoBehaviour
                     FMODUnity.RuntimeManager.PlayOneShot("event:/OtherGimel", GameObject.Find("dreydl").transform.position);
                 }
                 break;
-        case "shin":
+        case "Shin":
         //put in
             print("shin");
             players[currentPlayer] -= ante;
