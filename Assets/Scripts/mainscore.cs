@@ -15,7 +15,10 @@ public class mainscore : MonoBehaviour
     public GameObject dreydlCamera;
     public ParticleSystem ps;
     GameObject placeBetText;
-   
+    bool slotActive;
+    public List<GameObject> dreydlUI = new List<GameObject>();
+    public GameObject slotFeature;
+
     int bet;
     int score;
     // Start is called before the first frame update
@@ -25,6 +28,7 @@ public class mainscore : MonoBehaviour
         var emission = ps.emission;
         emission.rate = 0;
         placeBetText = GameObject.Find("placebetflashing");
+        slotActive = false;
        
     }
 
@@ -50,14 +54,23 @@ public class mainscore : MonoBehaviour
         if(isBet){
             uwin.text = "you bet: " + change;
             bet = change;
-            placeBetText.SetActive(false);
+            
+                placeBetText.SetActive(false);
+            
         }else{
             uwin.text = "you win: " + change;
-            placeBetText.SetActive(true);
+            if (slotActive == false)
+            {
+                placeBetText.SetActive(true);
+            }
             coinBust(change, 2000);
             if (change >= 1)
             {
                 FMODUnity.RuntimeManager.PlayOneShot("event:/winCoins");
+            }
+            if (slotActive == false)
+            {
+                placeBetText.SetActive(true);
             }
             //}
         }
@@ -66,18 +79,33 @@ public class mainscore : MonoBehaviour
         }
     }
 
-    public void maybeStartSlot(){
-        if(Random.Range(0,100) < 20){
-                //activate slot machine
-                dgm.activateSlot();
+    public async void maybeStartSlot(){
+        if(Random.Range(0,100) < 100){
+            slotActive = true;
+            FMODUnity.RuntimeManager.PlayOneShot("event:/slotFunction");
+            //activate slot machine
+            await Task.Delay(4500);
+                slotFeature.SetActive(true);
+            await Task.Delay(3000);
+                slotFeature.SetActive(false);
+                 dgm.activateSlot();
                 dreydlCamera.SetActive(false);
                 ds.setSlotMode(true);
+            for (int i = 0; i < dreydlUI.Count; i++) {
+                dreydlUI[i].SetActive(false);
+            }
         }
     }
 
-    public void endSlot(){
+    public async void endSlot(){
+        await Task.Delay(2000);
         ds.setSlotMode(false);
         dreydlCamera.SetActive(true);
+        slotActive = false;
+        for (int i = 0; i < dreydlUI.Count; i++)
+        {
+            dreydlUI[i].SetActive(true);
+        }
     }
 
     public async void coinBust(float win, int time){

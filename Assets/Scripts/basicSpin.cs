@@ -28,7 +28,7 @@ public class basicSpin : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxAngVel = Random.Range(26, 18);
+        maxAngVel = Random.Range(28, 15);
         isSpinning = true;
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
@@ -58,7 +58,7 @@ public class basicSpin : MonoBehaviour
                 scoring.landed(landedFace);
                 print("landed face " + landedFace);
                 
-                maxAngVel = Random.Range(26, 18);
+                maxAngVel = Random.Range(28, 15);
 
             }
         }
@@ -102,11 +102,11 @@ public class basicSpin : MonoBehaviour
         rb.useGravity = true;
         rb.AddForce(Random.Range(-throwForce,throwForce),0,Random.Range(-throwForce,throwForce));
         rb.AddTorque(Random.Range(-throwTorque,throwTorque),0,Random.Range(-throwTorque,throwTorque));
-        voiceChance = Random.Range(1, 3);
+        voiceChance = Random.Range(1, 100);
         print(voiceChance);
   
 
-        if (voiceChance != 3)
+        if (voiceChance <= 45)
         {
             //FMODUnity.RuntimeManager.PlayOneShot("event:/cardPlayer");
             voiceActing();
@@ -116,7 +116,7 @@ public class basicSpin : MonoBehaviour
     async void voiceActing()
     {
 
-        voiceRange = Random.Range(0, 4000);
+        voiceRange = Random.Range(0, 2500);
         
         await Task.Delay(voiceRange);
         FMODUnity.RuntimeManager.PlayOneShot("event:/cardPlayer");

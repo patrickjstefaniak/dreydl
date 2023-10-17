@@ -14,6 +14,7 @@ public class dreydlgamemanager : MonoBehaviour
     bool isActive;
     public List<GameObject> cashOutComponents = new List<GameObject>();
     int currentBet = 10;
+    
     // Start is called before the first frame update
     void Start()
     {
