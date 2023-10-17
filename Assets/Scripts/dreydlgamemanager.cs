@@ -27,58 +27,58 @@ public class dreydlgamemanager : MonoBehaviour
         if(Input.GetKeyDown("1") || Input.GetMouseButtonDown(1))
         {
             placeBet(1);
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
         if(Input.GetKeyDown("2") || (Input.GetKeyDown("w"))){
             placeBet(2);
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
         if(Input.GetKeyDown("3") || (Input.GetKeyDown("a"))){
             placeBet(3);
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
         if(Input.GetKeyDown("5") || (Input.GetKeyDown("s") )){
             placeBet(5);
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
         if (Input.GetKeyDown("d"))
         {
             print("Max Bet");
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
         if (Input.GetKeyDown("f"))
         {
             print("Deal Draw");
             placeBet(0);
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
             print("Cashout");
             cashOut(mainscore.getScore());
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+           // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
             print("Call Attendant");
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             print("1 hand");
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+           // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
             print("10 hands");
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+           // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
 
         if (Input.GetMouseButtonDown(0))
         {
             print("15 hands");
-            FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+           // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
     }
 
