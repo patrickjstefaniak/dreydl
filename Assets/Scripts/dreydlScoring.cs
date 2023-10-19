@@ -33,6 +33,7 @@ public class dreydlScoring : MonoBehaviour
     public Text previousT;
     string landedLetter;
     string landedRule;
+    public GameObject ruleText;
     public List<GameObject> uiComponents = new List<GameObject>();
     string hebrewletter;
     bool stopFlashing;
@@ -114,6 +115,7 @@ public class dreydlScoring : MonoBehaviour
         if (index >= 0 && index < uiComponents.Count)
         {
             uiComponents[index].SetActive(true);
+            ruleText.SetActive(true);
         }
     }
 
@@ -123,6 +125,7 @@ public class dreydlScoring : MonoBehaviour
         if (index >= 0 && index < uiComponents.Count)
         {
             uiComponents[index].SetActive(false);
+            ruleText.SetActive(false);
         }
     }
 
@@ -138,7 +141,7 @@ public class dreydlScoring : MonoBehaviour
     {
         print("DISPLAYING LETTER");
         TurnOnUIComponent(letterNumber);
-        await Task.Delay(2000);
+        await Task.Delay(2200);
         TurnOffUIComponent(letterNumber);
 
 
@@ -241,7 +244,7 @@ public class dreydlScoring : MonoBehaviour
                 landedRule = "";
                 landedLetter = "heh";
                 hebrewletter = "ה";
-                landedRule = "Halb: Take half the pot";
+                landedRule = "Halb - Take half the pot";
                 displayLetter(5);
                     //FMODUnity.RuntimeManager.PlayOneShot("event:/Heh", GameObject.Find("dreydl").transform.position);
                 break;
@@ -250,7 +253,7 @@ public class dreydlScoring : MonoBehaviour
                 print("nun");
                 landedLetter = "nun";
                 hebrewletter = "נ";
-                landedRule = "Nisht: Nothing happens";
+                landedRule = "Nisht - Nothing happens";
                 displayLetter(14);
                     //FMODUnity.RuntimeManager.PlayOneShot("event:/Nun", GameObject.Find("dreydl").transform.position);
                 break;
@@ -260,7 +263,7 @@ public class dreydlScoring : MonoBehaviour
                 displayLetter(3);
                 landedLetter = "gimel";
                 hebrewletter = "ג";
-                landedRule = "Gants: Take the whole pot";
+                landedRule = "Gantz - Take the whole pot";
                 players[currentPlayer] += pot;
                 pot = 0;
                 if (currentPlayer == 0)
@@ -279,15 +282,17 @@ public class dreydlScoring : MonoBehaviour
                 pot += ante;
                 landedLetter = "shin";
                 hebrewletter = "ש";
-                    landedRule = "Shtel-Arayn: Put one in the pot";
+                    landedRule = "Shtel Arayn - Put one in the pot";
                     displayLetter(21);
                     //FMODUnity.RuntimeManager.PlayOneShot("event:/Shin", GameObject.Find("dreydl").transform.position);
                     break;
             case "Alef":
                 print("Alef");
-                 hebrewletter = "א";
-                    //take one from player to left
-                  left = playerToLeft();
+                displayLetter(1);
+                hebrewletter = "א";
+                landedRule = "Antlayen - Take one from the player to your left";
+                //take one from player to left
+                left = playerToLeft();
                 players[left] --;
                 players[currentPlayer] ++;
                 landedLetter = "Alef";
@@ -296,7 +301,9 @@ public class dreydlScoring : MonoBehaviour
             case "Beys":
                 print("Beys");
                 landedLetter = "Beys";
-                 hebrewletter = "ב";
+                displayLetter(2);
+                hebrewletter = "ב";
+                landedRule = "Bagzlen - Take one from each other player";
                 //take one from every other player
                 for (int i = 0; i < 4; i++){
                     players[i] --;
@@ -305,85 +312,111 @@ public class dreydlScoring : MonoBehaviour
                 break;
             case "Daled":
                 print("Daled");
+                landedLetter = "Daled";
+                hebrewletter = "ד";
+                landedRule = "Dreyen - Spin the dreydl again";
+                displayLetter(4);
                 //spin again
                 break;
-                landedLetter = "Daled";
-                    hebrewletter = "ד";
+             
             case "Vov":
             //everyone puts one in pot
                 print("Vov");
-                for(int i = 0; i < 4; i++){
+                displayLetter(6);
+                hebrewletter = "ו";
+                landedLetter = "Vov";
+                landedRule = "Vetn Zikh - All players add one to the pot";
+                for (int i = 0; i < 4; i++){
                     players[i] --;
                 }
                 pot += 4;
-                    hebrewletter = "ו";
-                    landedLetter = "Vov";
+                   
                     break;
                 
             case "Zayen":
             //half
                 print("Zayen");
+                landedLetter = "Zayen";
+                hebrewletter = "ז";
+                displayLetter(7);
+                landedRule = "Zamlen - Take one third of the pot";
                 //take one third of pot
-                 half = (int)Mathf.Floor(pot /3);
+                half = (int)Mathf.Floor(pot /3);
                 players[currentPlayer] += half;
                 pot -= half;
-                landedLetter = "Zayen";
-                    hebrewletter = "ז";
+              
                     break;
             case "Khes":
-            //Return 1/2 your gelt to the pot
-                 half = (int)Mathf.Floor(players[currentPlayer] /2);
-                players[currentPlayer] -= half;
-                pot += half;
+                //Return 1/2 your gelt to the pot
                 print("Khes");
                 landedLetter = "Khes";
-                    hebrewletter = "ח";
+                hebrewletter = "ח";
+                displayLetter(8);
+                landedRule = "Kharote Hobn - Return half your gelt to the pot";
+                half = (int)Mathf.Floor(players[currentPlayer] /2);
+                players[currentPlayer] -= half;
+                pot += half;
+               
                     break;
             case "Tes":
             //Divide the pot amongst the players
                 print("Tes");
-                 half = (int)Mathf.Floor(pot /4);
+                displayLetter(9);
+                landedLetter = "Tes";
+                hebrewletter = "ט";
+                landedRule = "Teyln zikh - Divide the pot amongst the players";
+                half = (int)Mathf.Floor(pot /4);
                 players[currentPlayer] += half;
                 pot = 0;
-                landedLetter = "Tes";
-                    hebrewletter = "ט";
+             
                     break;
             case "Yud":
             //Swap gelt with the player to your left
                 print("Yud");
-                 left = playerToLeft();
+                displayLetter(10);
+                landedLetter = "Yud";
+                hebrewletter = "י";
+                landedRule = "Yentsn - Swap gelt with the player to your left";
+                left = playerToLeft();
                 int leftsGelt = players[left];
                 players[left] = players[currentPlayer];
                 players[currentPlayer] = leftsGelt;
-                landedLetter = "Yud";
-                    hebrewletter = "י";
+              
                     break;
             case "Khof":
             //Give one to the player to your left
                 print("Khof");
-                 left = playerToLeft();
+                displayLetter(11);
+                landedLetter = "Khof";
+                hebrewletter = "כ";
+                landedRule = "Khabar - Give one to the player to your left";
+                left = playerToLeft();
                 players[currentPlayer] --;
                 players[left] ++;
-                landedLetter = "Khof";
-                    hebrewletter = "כ";
+             
                     break;
             case "Lamed":
             //Player to your left puts one in the pot
                 print("Lamed");
                 landedLetter = "Lamed";
                     hebrewletter = "ל";
-                    left = playerToLeft();
+                displayLetter(12);
+                landedRule = "Litsitator - Player to your left puts one in the pot";
+                left = playerToLeft();
                 players[left] --;
                 pot ++;
                 break;
             case "Mem":
             //Player to your left takes one from the pot
                 print("Mem");
-                 left = playerToLeft();
+                displayLetter(13);
+                landedLetter = "Mem";
+                hebrewletter = "מ";
+                landedRule = "Matone - Player to your left takes one from the pot";
+                left = playerToLeft();
                 players[left] ++;
                 pot --;
-                landedLetter = "Mem";
-                    hebrewletter = "מ";
+               
 
                     break;
             case "Samekh":
@@ -391,7 +424,9 @@ public class dreydlScoring : MonoBehaviour
                 print("Samekh");
                 landedLetter = "Samekh";
                     hebrewletter = "ס";
-                    left = playerToLeft();
+                landedRule = "Sotsfarzikher	- All players take one from the pot";
+                displayLetter(15);
+                left = playerToLeft();
                 for(int i = 0; i < 3; i++){
                     players[left] ++;
                     pot --;
@@ -407,23 +442,33 @@ public class dreydlScoring : MonoBehaviour
             case "Ayen":
             //Skip next players turn
                 print("Ayen");
-                skipNextPlayer = true;
+                displayLetter(16);
                 landedLetter = "Ayen";
-                 hebrewletter = "ע";
+                hebrewletter = "ע";
+                landedRule = "Iber-Yor - Skip next players turn";
+                skipNextPlayer = true;
+               
                     break;
             case "Fey":
-            //Player to your left takes half the pot
-                 left = playerToLeft();
+                //Player to your left takes half the pot
+                displayLetter(17);
+                print("Fey");
+                landedLetter = "Fey";
+                hebrewletter = "פ";
+                landedRule = "Plet - Player to your left takes half the pot";
+                left = playerToLeft();
                  half = (int)Mathf.Floor(pot /2);
                 players[left] += half;
                 pot -= half;
-                print("Fey");
-                landedLetter = "Fey";
-                    hebrewletter = "פ";
+               
                     break;
             case "Tsadek":
             //Take one from player with most gelt  (take from multiple players if tied)
                 print("Tsadek");
+                displayLetter(18);
+                landedLetter = "Tsadek";
+                hebrewletter = "צ";
+                landedRule = "Tsoltarif	- Take one from player with most gelt";
                 int highestAmount = 0;
                 for(int i = 0; i < 4; i++){
                     if(players[i] > highestAmount){
@@ -436,33 +481,41 @@ public class dreydlScoring : MonoBehaviour
                         players[currentPlayer] ++; 
                     }
                 }
-                landedLetter = "Tsadek";
-                    hebrewletter = "צ";
+               
                     break;
             case "Kuf":
             //Split the pot with the player to your left
                 print("Kuf");
-                 left = playerToLeft();
+                displayLetter(19);
+                landedLetter = "Kuf";
+                hebrewletter = "ק";
+                landedRule = "Kooperatsiye - Split the pot with the player to your left";
+                left = playerToLeft();
                  half = (int)Mathf.Floor(pot /2);
                 players[left] += half;
                 players[currentPlayer] += half;
                 pot = 0;
-                landedLetter = "Kuf";
-                    hebrewletter = "ק";
+              
                     break;
             case "Reysh":
             //Reverse turn order
                 print("Reysh");
-                reverseOrder = true;
+                displayLetter(20);
                 landedLetter = "Reysh";
-                    hebrewletter = "ר";
+                hebrewletter = "ר";
+                landedRule = "Rotirn - Reverse turn order";
+
+                reverseOrder = true;
+                
                     break;
             case "Tof":
             //Pot goes to player with the least gelt
                 print("Tof");
                     hebrewletter = "ת";
                     landedLetter = "Tof";
-                    int lowestAmount = 99999;
+                landedRule = "Tikun - Pot goes to player with the least gelt";
+                displayLetter(22);
+                int lowestAmount = 99999;
                 for(int i = 0; i < 4; i++){
                     if(players[i] < lowestAmount){
                         lowestAmount = players[i];
