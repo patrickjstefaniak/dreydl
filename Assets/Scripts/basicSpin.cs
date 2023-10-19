@@ -122,7 +122,7 @@ public class basicSpin : MonoBehaviour
        rb.AddForce(Random.Range(-throwForce,throwForce),0,Random.Range(-throwForce,throwForce));
        rb.AddTorque(Random.Range(-throwTorque,throwTorque),0,Random.Range(-throwTorque,throwTorque));
         voiceChance = Random.Range(1, 100);
-        print(voiceChance);
+        //print(voiceChance);
   
 
         if (voiceChance <= 45)
