@@ -3048,7 +3048,7 @@ GameObject:
   - component: {fileID: 455766255}
   - component: {fileID: 455766254}
   m_Layer: 0
-  m_Name: shin
+  m_Name: Shin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3822,7 +3822,7 @@ GameObject:
   - component: {fileID: 524617302}
   - component: {fileID: 524617301}
   m_Layer: 0
-  m_Name: heh
+  m_Name: Heh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12153,7 +12153,7 @@ GameObject:
   - component: {fileID: 1093348822}
   - component: {fileID: 1093348821}
   m_Layer: 0
-  m_Name: nun
+  m_Name: Nun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17874,7 +17874,7 @@ GameObject:
   - component: {fileID: 1207493572}
   - component: {fileID: 1207493571}
   m_Layer: 0
-  m_Name: gimel
+  m_Name: Gimel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
