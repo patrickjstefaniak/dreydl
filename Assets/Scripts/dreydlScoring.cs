@@ -1,3 +1,5 @@
+//this is the scoring module for an individual dreydl hand
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,8 +38,7 @@ public class dreydlScoring : MonoBehaviour
     public GameObject ruleText;
     public List<GameObject> uiComponents = new List<GameObject>();
     string hebrewletter;
-    bool stopFlashing;
-    public GameObject dealdrawFlashing;
+    
     // private FMOD.Studio.EventInstance instance;
     // Start is called before the first frame update
     void Start()
@@ -45,7 +46,7 @@ public class dreydlScoring : MonoBehaviour
         players = new int[4];
         nextTurnTimer = 9999999;
        
-        stopFlashing = false;
+
     }
 
     // Update is called once per frame
@@ -62,10 +63,7 @@ public class dreydlScoring : MonoBehaviour
                     
                 }else{
                     if(currentPlayer == 0){
-                        dealdrawFlash();
                         if (Input.GetKeyDown("space")){
-                            stopFlashing = true;
-                            dealdrawFlash();
                             dropIt();
                         }
                     }else{
@@ -84,26 +82,12 @@ public class dreydlScoring : MonoBehaviour
 
     public void dropIt(){
 
-        dealdrawFlashing.SetActive(false);
 
-       // print("stop flashing");
         bSpin.dropIt();
         //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
     }
 
-    public void dealdrawFlash()
-    {
-        if(stopFlashing == false)
-        {
-            dealdrawFlashing.SetActive(true);
-      
-        }
-        else
-        {
-            dealdrawFlashing.SetActive(false);
-        }
 
-    }
 
     public void setSlotMode(bool b){
         isSlot = b;
@@ -160,14 +144,12 @@ public class dreydlScoring : MonoBehaviour
 
     void nextTurn(){
         if(!reverseOrder){
-            stopFlashing = false;
             currentPlayer += 1;
             if(currentPlayer > 3){
                 currentPlayer = 0;
             }
         }else{
             currentPlayer -= 1;
-            stopFlashing = false;
             if (currentPlayer < 0){
                 currentPlayer = 3;
             }

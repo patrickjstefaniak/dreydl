@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa27cecf939b934db6b49d3465e415c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dreydlGame: {fileID: 754068817}
+  dreydlscoring: {fileID: 0}
   mainscore: {fileID: 1338354227}
   cashoutGO: {fileID: 1539258686}
   cashOutComponents:
@@ -293,6 +293,7 @@ MonoBehaviour:
   - {fileID: 1212685546}
   - {fileID: 888844619}
   - {fileID: 1224429810}
+  dealdrawFlashing: {fileID: 0}
 --- !u!4 &10433886
 Transform:
   m_ObjectHideFlags: 0
@@ -10406,7 +10407,6 @@ MonoBehaviour:
   - {fileID: 1182321053}
   - {fileID: 441777052}
   - {fileID: 1988551528}
-  dealdrawFlashing: {fileID: 1753355745}
 --- !u!1 &756309843
 GameObject:
   m_ObjectHideFlags: 0
@@ -11548,7 +11548,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 906930747}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 439e1a98f1478044e88e5d5af8acee57, type: 3}
   m_Name: 

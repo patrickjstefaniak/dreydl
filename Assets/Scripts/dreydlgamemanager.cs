@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//this is the manager for the overall game, for managing all of the individual hands
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
@@ -8,17 +10,30 @@ using FMODUnity;
 public class dreydlgamemanager : MonoBehaviour
 {
 
-    public dreydlScoring dreydlGame;
+    public dreydlScoring dreydlscoring;
     public mainscore mainscore;
     public GameObject cashoutGO;
     bool isActive;
+    string mode = "not started";
+    int hands = 1;
+    int finishedhands = 0;
+    int finishedturns = 0;
     public List<GameObject> cashOutComponents = new List<GameObject>();
     int currentBet = 10;
+    int currentPlayer = 0;
+    public GameObject dealdrawFlashing;
+    GameObject placeBetText;
     
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
+        dealdrawFlashing.SetActive(false);
         isActive = true;
+        mode = "not started";
+        placeBetText = GameObject.Find("placebetflashing");
+        await Task.Delay(500);
+        mode = "place bet";
+        placeBetText.SetActive(true);
     }
 
     // Update is called once per frame
@@ -67,37 +82,78 @@ public class dreydlgamemanager : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             print("1 hand");
+            sethands(1);
            // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
             print("10 hands");
            // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+           sethands(10);
         }
 
         if (Input.GetMouseButtonDown(0))
         {
             print("15 hands");
+            sethands(15);
            // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
     }
 
     void placeBet(int bet){
-        
-        if(bet == 0){
-            if(currentBet != 10){
-                dreydlGame.placeBet(currentBet);
-                mainscore.updateScore(true, -1 * currentBet);
+        if(mode == "place bet"){
+            if(bet == 0){
+                if(currentBet != 10){
+                    dreydlscoring.placeBet(currentBet);
+                    mainscore.updateScore(true, -1 * currentBet);
+                }
+            }else{
+                mainscore.updateScore(true, -1 * bet);
+                currentBet = bet;
+                dreydlscoring.placeBet(bet);
             }
-        }else{
-            mainscore.updateScore(true, -1 * bet);
-            currentBet = bet;
-            dreydlGame.placeBet(bet);
+            mode = "spinning";
+            finishedhands = 0;
+            finishedturns = 0;
+            placeBetText.SetActive(false);
+
+            
+            //voice stufff .... 
+
+                // voiceRange = Random.Range(0, 2500);
+                
+                // await Task.Delay(voiceRange);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/cardPlayer");
+
+            
         }
-        
+    }
+
+    void sethands(int h){
+        if(mode == "place bet"){
+            hands = h;
+            //toggle on and off dreydls
+        }
+    }
+
+//see if all hands are done, if so set next bet
+    public void handFinished(){
+        finishedhands ++;
+        if(finishedhands >= hands){
+            mode = "place bet";
+        }
+    }
+
+    public void turnFinished(){
+        finishedturns ++;
+        if(finishedturns >= hands){
+            //next turn
+            finishedturns = 0;
+        }
     }
 
     public async void cashOut(int amount){
+        mode = "cash out";
         if(isActive){
             isActive = false;
             //open cashout scene
@@ -116,6 +172,7 @@ public class dreydlgamemanager : MonoBehaviour
     }
 
     public void activateSlot(){
+        mode = "slot";
         SceneManager.LoadScene("slotmachine", LoadSceneMode.Additive);
     }
 
