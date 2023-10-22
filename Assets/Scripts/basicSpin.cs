@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//this is to make an individual dreydl spin and detect when its done and what face it landed on
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
@@ -84,7 +86,7 @@ public class basicSpin : MonoBehaviour
     }
 
 
-
+//determine what face it landed on by seeing which string sound collider is highest
     string getFace(){
         float highestPos = 0;
         string highestString = "";
@@ -125,22 +127,10 @@ public class basicSpin : MonoBehaviour
         //print(voiceChance);
   
 
-        if (voiceChance <= 45)
-        {
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/cardPlayer");
-            voiceActing();
-        }
-    }
-
-    async void voiceActing()
-    {
-
-        voiceRange = Random.Range(0, 2500);
-        
-        await Task.Delay(voiceRange);
-        FMODUnity.RuntimeManager.PlayOneShot("event:/cardPlayer");
 
     }
+
+    
 
     public void set22(bool b){
         is22sided = b;
