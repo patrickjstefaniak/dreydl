@@ -86,15 +86,21 @@ public class dreydlgamemanager : MonoBehaviour
         
         if(bet == 0){
             if(currentBet != 10){
-                dreydlGame.placeBet(currentBet);
+                sendBets(currentBet);
                 mainscore.updateScore(true, -1 * currentBet);
             }
         }else{
             mainscore.updateScore(true, -1 * bet);
             currentBet = bet;
-            dreydlGame.placeBet(bet);
+            sendBets(bet);
         }
         
+    }
+
+    void sendBets(int bet){
+        foreach(dreydlScoring ds in FindObjectsOfType<dreydlScoring>()){
+            ds.placeBet(bet);
+        }
     }
 
     public async void cashOut(int amount){

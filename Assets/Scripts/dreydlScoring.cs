@@ -50,6 +50,7 @@ public class dreydlScoring : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(players[0]);
         if(!isSlot){
             if(isPlaying){
                 if(nextTurnTimer >= 0){
@@ -214,6 +215,7 @@ public class dreydlScoring : MonoBehaviour
         currentPlayer = 0;
         currentPlayerT.text = "current player: you";
         nextTurnTimer = 999;
+        print(players[0]);
         for(int i = 0; i < 4; i++){
             players[i] = bet;
         }
