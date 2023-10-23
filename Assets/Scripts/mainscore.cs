@@ -55,23 +55,16 @@ public class mainscore : MonoBehaviour
             bet = change;
             
                 
-            
+ // hand is over           
         }else{
-            uwin.text = "you win: " + change;
-            if (slotActive == false)
-            {
-                
+            if(change > 0){
+                uwin.text = "you win: " + change;
+                coinBust(change, 2000);
+                if (change >= 1)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/winCoins");
+                }
             }
-            coinBust(change, 2000);
-            if (change >= 1)
-            {
-                FMODUnity.RuntimeManager.PlayOneShot("event:/winCoins");
-            }
-            if (slotActive == false)
-            {
-                
-            }
-            //}
         }
         if(score <= 0){
             dgm.cashOut(0);
@@ -101,6 +94,7 @@ public class mainscore : MonoBehaviour
         ds.setSlotMode(false);
         dreydlCamera.SetActive(true);
         slotActive = false;
+        dgm.startNextBet();
         for (int i = 0; i < dreydlUI.Count; i++)
         {
             dreydlUI[i].SetActive(true);

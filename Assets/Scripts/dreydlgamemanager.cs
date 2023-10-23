@@ -10,7 +10,7 @@ using FMODUnity;
 public class dreydlgamemanager : MonoBehaviour
 {
 
-    public dreydlScoring dreydlscoring;
+    //public dreydlScoring dreydlscoring;
     public mainscore mainscore;
     public GameObject cashoutGO;
     bool isActive;
@@ -18,11 +18,17 @@ public class dreydlgamemanager : MonoBehaviour
     int hands = 1;
     int finishedhands = 0;
     int finishedturns = 0;
+    int turnCountMod = 0;
     public List<GameObject> cashOutComponents = new List<GameObject>();
     int currentBet = 10;
     int currentPlayer = 0;
     public GameObject dealdrawFlashing;
     GameObject placeBetText;
+    public GameObject d1;
+    public GameObject d10;
+    public GameObject d15;
+    float audioTimer;
+    StudioEventEmitter voiceLines;
     
     // Start is called before the first frame update
     async void Start()
@@ -34,6 +40,8 @@ public class dreydlgamemanager : MonoBehaviour
         await Task.Delay(500);
         mode = "place bet";
         placeBetText.SetActive(true);
+        voiceLines = GetComponent<StudioEventEmitter>();
+        resetAudioTimer();
     }
 
     // Update is called once per frame
@@ -68,49 +76,79 @@ public class dreydlgamemanager : MonoBehaviour
             //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             print("Cashout");
             cashOut(mainscore.getScore());
            // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             print("Call Attendant");
             //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             print("1 hand");
             sethands(1);
            // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             print("10 hands");
            // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
            sethands(10);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        //if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown("i"))
         {
             print("15 hands");
             sethands(15);
            // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
+
+        //while dreydl is spinning, possibly trigger audio to play
+        if(mode == "spinning"){
+             //print("its playing");
+            if(!voiceLines.IsPlaying()){
+                //print("its not playing");
+                audioTimer -= Time.deltaTime;
+                if(audioTimer <= 0){
+                    print("play voice");
+                    voiceLines.Play();
+                    resetAudioTimer();
+                }
+            }
+        }
+    }
+
+    void resetAudioTimer(){
+        audioTimer = Random.Range(2,60);
     }
 
     void placeBet(int bet){
         if(mode == "place bet"){
+            //bet is 0 when a repeat bet is made
+            //10 is just the original amount so that pressing spin when no bet has been made yet does nothing
             if(bet == 0){
                 if(currentBet != 10){
-                    dreydlscoring.placeBet(currentBet);
-                    mainscore.updateScore(true, -1 * currentBet);
+                    //dreydlscoring.placeBet(currentBet);
+                    sendBets(currentBet);
+                    mainscore.updateScore(true, -1 * currentBet * hands);
                 }
             }else{
-                mainscore.updateScore(true, -1 * bet);
+                mainscore.updateScore(true, -1 * bet * hands);
                 currentBet = bet;
-                dreydlscoring.placeBet(bet);
+                //dreydlscoring.placeBet(bet);
+                if(hands == 1){
+                    if(Random.Range(0,100) > 80){
+                        GameObject.Find("dreydl container").GetComponent<basicSpin>().set22(true);
+                    }else{
+                        GameObject.Find("dreydl container").GetComponent<basicSpin>().set22(false);
+                    }
+                }
+                sendBets(bet);
             }
             mode = "spinning";
             finishedhands = 0;
@@ -129,26 +167,58 @@ public class dreydlgamemanager : MonoBehaviour
         }
     }
 
+
     void sethands(int h){
         if(mode == "place bet"){
             hands = h;
             //toggle on and off dreydls
+            if(h == 1){
+                d1.SetActive(true);
+                d10.SetActive(false);
+                d15.SetActive(false);
+            }else if(h == 10){
+                d1.SetActive(false);
+                d10.SetActive(true);
+                d15.SetActive(false);
+            }else if(h== 15){
+                d1.SetActive(false);
+                d10.SetActive(false);
+                d15.SetActive(true);
+            }
         }
     }
 
 //see if all hands are done, if so set next bet
     public void handFinished(){
         finishedhands ++;
+        print("hand finished");
         if(finishedhands >= hands){
-            mode = "place bet";
+            if(Random.Range(0,100) > 95){
+                activateSlot();
+            }else{
+                startNextBet();
+            }
         }
+    }
+
+    public void startNextBet(){
+        mode = "place bet";
+        finishedhands = 0;
+        finishedturns = 0;
+        turnCountMod = 0;
     }
 
     public void turnFinished(){
         finishedturns ++;
-        if(finishedturns >= hands){
+        print("turn finished");
+        if(finishedturns >= hands - turnCountMod){
             //next turn
             finishedturns = 0;
+            print("start next turn");
+            foreach(dreydlScoring ds in FindObjectsOfType<dreydlScoring>()){
+                ds.nextTurn();
+                turnCountMod = finishedhands;
+            }
         }
     }
 
