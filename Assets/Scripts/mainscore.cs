@@ -9,6 +9,7 @@ public class mainscore : MonoBehaviour
 {
 
     public Text ms;
+    public Text betText;
     public Text uwin;
     public dreydlgamemanager dgm;
     public dreydlScoring ds;
@@ -17,6 +18,10 @@ public class mainscore : MonoBehaviour
     bool slotActive;
     public List<GameObject> dreydlUI = new List<GameObject>();
     public GameObject slotFeature;
+    public GameObject winText;
+    public GameObject previousOne;
+    public GameObject previousTwo;
+
 
     int bet;
     int score;
@@ -28,7 +33,9 @@ public class mainscore : MonoBehaviour
         emission.rate = 0;
         
         slotActive = false;
-       
+        previousOne.SetActive(true);
+        previousTwo.SetActive(true);
+
     }
 
     // Update is called once per frame
@@ -49,21 +56,31 @@ public class mainscore : MonoBehaviour
 
     public void updateScore(bool isBet, int change){
         score += change;
-        ms.text = "score: " + score;
+        ms.text = ""+ score;
         if(isBet){
-            uwin.text = "you bet: " + change;
+            winText.SetActive(false);
+            betText.text = "" + change;
             bet = change;
-            
-                
- // hand is over           
-        }else{
+            previousOne.SetActive(true);
+            previousTwo.SetActive(true);
+
+
+            // hand is over           
+        }
+        else{
             if(change > 0){
-                uwin.text = "you win: " + change;
+                //await Task.Delay(1000);
+                
+                uwin.text = "You win: " + change;
+                previousOne.SetActive(false);
+                previousTwo.SetActive(false);
+                winText.SetActive(true);
                 coinBust(change, 2000);
                 if (change >= 1)
                 {
                     FMODUnity.RuntimeManager.PlayOneShot("event:/winCoins");
                 }
+                
             }
         }
         if(score <= 0){
