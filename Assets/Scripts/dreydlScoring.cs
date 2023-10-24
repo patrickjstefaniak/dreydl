@@ -1,3 +1,5 @@
+//this is the scoring module for an individual dreydl hand
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +31,7 @@ public class dreydlScoring : MonoBehaviour
     private float spinTimer;
     private float nextTurnTimer;
     public mainscore mainscore;
+    dreydlgamemanager dgm;
     public float[] nextTurnTimes;
     public Text previousT;
     string landedLetter;
@@ -36,21 +39,21 @@ public class dreydlScoring : MonoBehaviour
     public GameObject ruleText;
     public List<GameObject> uiComponents = new List<GameObject>();
     string hebrewletter;
-    bool stopFlashing;
-    public GameObject dealdrawFlashing;
+    
     // private FMOD.Studio.EventInstance instance;
     // Start is called before the first frame update
     void Start()
     {
         players = new int[4];
         nextTurnTimer = 9999999;
-       
-        stopFlashing = false;
+       dgm = GameObject.Find("game manager").GetComponent<dreydlgamemanager>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        //print(players[0]);
         if(!isSlot){
             if(isPlaying){
                 if(nextTurnTimer >= 0){
@@ -62,10 +65,7 @@ public class dreydlScoring : MonoBehaviour
                     
                 }else{
                     if(currentPlayer == 0){
-                        dealdrawFlash();
                         if (Input.GetKeyDown("space")){
-                            stopFlashing = true;
-                            dealdrawFlash();
                             dropIt();
                         }
                     }else{
@@ -74,6 +74,8 @@ public class dreydlScoring : MonoBehaviour
                        
                         if (spinTimer <= 0){
                             bSpin.dropIt();
+                            print("dropping again");
+                            spinTimer = 99999;
                         }
                     }
                 }
@@ -84,26 +86,12 @@ public class dreydlScoring : MonoBehaviour
 
     public void dropIt(){
 
-        dealdrawFlashing.SetActive(false);
 
-       // print("stop flashing");
         bSpin.dropIt();
         //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
     }
 
-    public void dealdrawFlash()
-    {
-        if(stopFlashing == false)
-        {
-            dealdrawFlashing.SetActive(true);
-      
-        }
-        else
-        {
-            dealdrawFlashing.SetActive(false);
-        }
 
-    }
 
     public void setSlotMode(bool b){
         isSlot = b;
@@ -121,7 +109,7 @@ public class dreydlScoring : MonoBehaviour
 
     public void TurnOffUIComponent(int index)
     {
-        print("turning UI off");
+        //print("turning UI off");
         if (index >= 0 && index < uiComponents.Count)
         {
             uiComponents[index].SetActive(false);
@@ -158,16 +146,14 @@ public class dreydlScoring : MonoBehaviour
         sideT.text = lastSide;
     }
 
-    void nextTurn(){
+    public void nextTurn(){
         if(!reverseOrder){
-            stopFlashing = false;
             currentPlayer += 1;
             if(currentPlayer > 3){
                 currentPlayer = 0;
             }
         }else{
             currentPlayer -= 1;
-            stopFlashing = false;
             if (currentPlayer < 0){
                 currentPlayer = 3;
             }
@@ -217,6 +203,7 @@ public class dreydlScoring : MonoBehaviour
         currentPlayer = 0;
         currentPlayerT.text = "current player: you";
         nextTurnTimer = 999;
+        print(players[0]);
         for(int i = 0; i < 4; i++){
             players[i] = bet;
         }
@@ -546,12 +533,13 @@ public class dreydlScoring : MonoBehaviour
         //see if round is over
         if(pot == 0 || players[0] < 0){
             isPlaying = false;
-            if(players[0] > 0){
-                mainscore.updateScore(false, players[0]);
-            }
-            mainscore.maybeStartSlot();
+            mainscore.updateScore(false, players[0]);
+            dgm.handFinished();
+            dgm.turnFinished();
+            //mainscore.maybeStartSlot();
         }else{
-            nextTurn();
+            //nextTurn();
+            dgm.turnFinished();
         }
         updateValues();
         // if(pot < 1){

@@ -14,7 +14,6 @@ public class mainscore : MonoBehaviour
     public dreydlScoring ds;
     public GameObject dreydlCamera;
     public ParticleSystem ps;
-    GameObject placeBetText;
     bool slotActive;
     public List<GameObject> dreydlUI = new List<GameObject>();
     public GameObject slotFeature;
@@ -27,7 +26,7 @@ public class mainscore : MonoBehaviour
         score = 18; 
         var emission = ps.emission;
         emission.rate = 0;
-        placeBetText = GameObject.Find("placebetflashing");
+        
         slotActive = false;
        
     }
@@ -55,24 +54,17 @@ public class mainscore : MonoBehaviour
             uwin.text = "you bet: " + change;
             bet = change;
             
-                placeBetText.SetActive(false);
-            
+                
+ // hand is over           
         }else{
-            uwin.text = "you win: " + change;
-            if (slotActive == false)
-            {
-                placeBetText.SetActive(true);
+            if(change > 0){
+                uwin.text = "you win: " + change;
+                coinBust(change, 2000);
+                if (change >= 1)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/winCoins");
+                }
             }
-            coinBust(change, 2000);
-            if (change >= 1)
-            {
-                FMODUnity.RuntimeManager.PlayOneShot("event:/winCoins");
-            }
-            if (slotActive == false)
-            {
-                placeBetText.SetActive(true);
-            }
-            //}
         }
         if(score <= 0){
             dgm.cashOut(0);
@@ -102,6 +94,7 @@ public class mainscore : MonoBehaviour
         ds.setSlotMode(false);
         dreydlCamera.SetActive(true);
         slotActive = false;
+        dgm.startNextBet();
         for (int i = 0; i < dreydlUI.Count; i++)
         {
             dreydlUI[i].SetActive(true);
