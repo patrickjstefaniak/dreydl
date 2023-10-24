@@ -54,7 +54,7 @@ public class mainscore : MonoBehaviour
 
   
 
-    public void updateScore(bool isBet, int change){
+    public async void updateScore(bool isBet, int change){
         score += change;
         ms.text = ""+ score;
         if(isBet){
@@ -80,7 +80,14 @@ public class mainscore : MonoBehaviour
                 {
                     FMODUnity.RuntimeManager.PlayOneShot("event:/winCoins");
                 }
-                
+
+
+                await Task.Delay(2000);
+
+                previousOne.SetActive(true);
+                previousTwo.SetActive(true);
+                winText.SetActive(false);
+
             }
         }
         if(score <= 0){
