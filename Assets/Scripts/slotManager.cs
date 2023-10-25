@@ -39,6 +39,7 @@ public class slotManager : MonoBehaviour
         }else{
             numOfSpins = 1;
         }
+        //start slot music
     }
 
     // Update is called once per frame
@@ -89,6 +90,12 @@ public class slotManager : MonoBehaviour
         SceneManager.UnloadScene("slotmachine");
     }
 
+    void playWinMusic(){
+        FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin", Vector3.zero);
+        print("play win");
+        //stop slot game music
+    }
+
     void calculateWin(){
 
         eventEmitterRef.Stop();
@@ -97,58 +104,62 @@ public class slotManager : MonoBehaviour
             if(results[2] == 1 && results[3] == 1){
                 winning = 75;
                 winWord = "ULTIMATE JACKPOT";
-                FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin");
+                playWinMusic();
             }
             else if(results[2] == 3 && results[3] == 2){
                 winning = 33;
                 winWord = "WEAR OUT";
-                FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin");
+                playWinMusic();
             }
             else if(results[2] == 2 && results[3] == 3){
                 winning = 33;
                 winWord = "AROUSE";
-                FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin");
+                playWinMusic();
             }
         }else if(results[1] == 2){
             if(results[2] == 2 && results[3] == 2){
                 winning = 50;
                 winWord = "MAJOR JACKPOT";
-                FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin");
+                playWinMusic();
             }
             else if(results[2] == 2 && results[3] == 1){
                 winning = 5;
                 winWord = "RIPEN;GREEDILY ABSORB NUTRIENTS FROM THE GROUND";
-                FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin");
+                playWinMusic();
             }
             else if(results[2] == 1 && results[3] == 3){
                 winning = 33;
                 winWord = "SCORN/MOCK";
-                FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin");
+                playWinMusic();
             }
             else if(results[2] == 2 && results[3] == 3){
                 winning = 34;
                 winWord = "CONJOIN IN CENTRAL CORE";
-                FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin");
+                playWinMusic();
             }
         }else if(results[2] == 2 && results[3] == 1){
             winning = 33;
             winWord = "LACK WHOLENESS";
-            FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin");
+            playWinMusic();
         }
         else if(results[2] == 3 && results[3] == 1){
             winning = 61;
             winWord = "DENY;OBSTRUCT DEVELOPMENT";
-            FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin");
+            playWinMusic();
         }
         else if(results[2] == 3 && results[3] == 2){
             winning = 62;
             winWord = "MIX NEW ELEMENTS INTO EXISTING ONES";
-            FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin");
+            playWinMusic();
         }
         else if(results[2] == 3 && results[3] == 3){
             winning = 25;
             winWord = "MINI JACKPOT ";
-            FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin");
+            playWinMusic();
+        }else{
+            foreach(reelSpin r in reels){
+                r.canSpinAgain();
+            }
         }
     }
 }

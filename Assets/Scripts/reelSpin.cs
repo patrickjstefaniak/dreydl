@@ -20,6 +20,7 @@ public class reelSpin : MonoBehaviour
     private float timer;
     public slotManager slotManager;
     private Text previousT;
+    bool canSpin = true;
 
 
     public int stopCount;
@@ -30,21 +31,25 @@ public class reelSpin : MonoBehaviour
         stopCount = 0;
         rb = GetComponent<Rigidbody>();
         rb.maxAngularVelocity = maxAngVel;
-        previousT = GameObject.Find("previous (1)").GetComponent<Text>();
+        GameObject pt = GameObject.Find("previousLetters");
+        previousT = pt.GetComponent<Text>();
 
     }
 
-
+    public void canSpinAgain(){
+        canSpin = true;
+    }
 
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("space") || Input.GetKeyDown("f"))
+        if((Input.GetKeyDown("space") || Input.GetKeyDown("f")) && canSpin)
         {
+            print("start spin");
             startSpin();
             isSpinning = true;
-            
+            canSpin = false;
         }
         if(isSpinning){
             timer -= Time.deltaTime;
@@ -59,7 +64,8 @@ public class reelSpin : MonoBehaviour
         rb.angularDrag = drag[0];
         rb.AddTorque(transform.forward * Random.Range(spinPower[0],spinPower[1]), ForceMode.VelocityChange);
         slotManager.playSound();
-    
+       GameObject pt = GameObject.Find("previousLetters");
+        previousT = pt.GetComponent<Text>();
 
 
 
@@ -68,7 +74,7 @@ public class reelSpin : MonoBehaviour
     void stopSpin(){
         rb.angularDrag = drag[1];
         isSpinning = false;
-        FMODUnity.RuntimeManager.PlayOneShot("event:/reelStop");
+        FMODUnity.RuntimeManager.PlayOneShot("event:/reelStop", Vector3.zero);
 
 
 

@@ -193,7 +193,7 @@ public class dreydlgamemanager : MonoBehaviour
         finishedhands ++;
         print("hand finished");
         if(finishedhands >= hands){
-            if(Random.Range(0,100) > 95){
+            if(Random.Range(0,100) > 0){
                 activateSlot();
             }else{
                 startNextBet();
