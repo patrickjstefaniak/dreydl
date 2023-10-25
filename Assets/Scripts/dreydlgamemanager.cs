@@ -109,7 +109,7 @@ public class dreydlgamemanager : MonoBehaviour
         }
 
         //while dreydl is spinning, possibly trigger audio to play
-        if(mode == "spinning"){
+      /*  if(mode == "spinning"){
              //print("its playing");
             if(!voiceLines.IsPlaying()){
                 //print("its not playing");
@@ -120,7 +120,7 @@ public class dreydlgamemanager : MonoBehaviour
                     resetAudioTimer();
                 }
             }
-        }
+        }*/
     }
 
     void resetAudioTimer(){
