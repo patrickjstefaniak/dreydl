@@ -528,7 +528,7 @@ public class dreydlScoring : MonoBehaviour
                 break;
         }
 
-        
+        dgm = GameObject.Find("game manager").GetComponent<dreydlgamemanager>();
         previousT.text = hebrewletter + previousT.text;
         //see if round is over
         if(pot == 0 || players[0] < 0){
