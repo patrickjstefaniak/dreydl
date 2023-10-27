@@ -853,6 +853,7 @@ GameObject:
   - component: {fileID: 1414535767}
   - component: {fileID: 1414535766}
   - component: {fileID: 1414535765}
+  - component: {fileID: 1414535769}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -956,6 +957,36 @@ Transform:
   m_Father: {fileID: 1376279393}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1414535769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414535764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 875724472
+      Data2: 1185526354
+      Data3: -1011850311
+      Data4: -1304423057
+    Path: event:/havaNagila
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 0
 --- !u!1 &1528824194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,6 +1037,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   screenText: {fileID: 1529298812}
+  mc: {fileID: 1414535764}
 --- !u!114 &1528824197
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,14 +17,19 @@ public class slotManager : MonoBehaviour
     private int numOfSpins;
     private mainscore ms;
     private dreydlScoring ds;
+    public GameObject mc;
     bool isPlaying;
     FMODUnity.StudioEventEmitter eventEmitterRef;
+    FMODUnity.StudioEventEmitter songEmitterRef;
 
     // Start is called before the first frame update
     void Start()
     {
         results = new int[4];
         eventEmitterRef = GetComponent<FMODUnity.StudioEventEmitter>();
+        songEmitterRef = mc.GetComponent<FMODUnity.StudioEventEmitter>();
+        FMODUnity.RuntimeManager.PlayOneShot("event:/slotFadeIn");
+
 
         ms = GameObject.Find("main score").GetComponent<mainscore>();
         ds = GameObject.Find("scores").GetComponent<dreydlScoring>();
@@ -44,7 +49,8 @@ public class slotManager : MonoBehaviour
         {
             numOfSpins = 1;
         }
-        //start slot music
+        
+        songEmitterRef.Play();
     }
 
     // Update is called once per frame
@@ -90,6 +96,7 @@ public class slotManager : MonoBehaviour
 
     async void endSlot()
     {
+        songEmitterRef.Stop();
 
         if (winning > 0)
         {
@@ -107,7 +114,7 @@ public class slotManager : MonoBehaviour
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/reelWin", Vector3.zero);
         print("play win");
-        //stop slot game music
+        songEmitterRef.Stop();
     }
 
     void calculateWin()
