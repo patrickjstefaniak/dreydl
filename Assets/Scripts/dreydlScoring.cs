@@ -136,11 +136,11 @@ public class dreydlScoring : MonoBehaviour
     }
 
     void updateValues(){
-        playerT.text = "you: " + players[0];
-        player2T.text = "forest: " + players[1];
-        player3T.text = "bugsy: " + players[2];
-        player4T.text = "patrick: " + players[3];
-        potT.text = "pot: " + pot;
+        playerT.text = "" + players[0];
+        player2T.text = "" + players[1];
+        player3T.text = "" + players[2];
+        player4T.text = "" + players[3];
+        potT.text = "" + pot;
         ruleT.text = landedRule;
 
         sideT.text = lastSide;
@@ -160,16 +160,16 @@ public class dreydlScoring : MonoBehaviour
         }
         switch(currentPlayer){
             case 0: 
-                currentPlayerT.text = "current player: you";
+                currentPlayerT.text = "You";
                 break;
             case 1: 
-                currentPlayerT.text = "current player: forest";
+                currentPlayerT.text = "Dvoyre";
                 break;
             case 2: 
-                currentPlayerT.text = "current player: bugsy";
+                currentPlayerT.text = "Meyer";
                 break;
             case 3: 
-                currentPlayerT.text = "current player: patrick";
+                currentPlayerT.text = "Reb Dan";
                 break;
             default:
                 currentPlayerT.text = "whoops";
@@ -201,7 +201,7 @@ public class dreydlScoring : MonoBehaviour
     public async void placeBet(int bet){
         pot = 0;
         currentPlayer = 0;
-        currentPlayerT.text = "current player: you";
+        currentPlayerT.text = "You";
         nextTurnTimer = 999;
         print(players[0]);
         for(int i = 0; i < 4; i++){
