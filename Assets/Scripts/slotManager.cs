@@ -37,19 +37,19 @@ public class slotManager : MonoBehaviour
         bool isPlaying = false;
         winning = 0;
         int bet = ms.getBet();
-        if (bet == -5)
-        {
-            numOfSpins = 3;
-        }
-        else if (bet <= -2)
-        {
-            numOfSpins = 2;
-        }
-        else
-        {
-            numOfSpins = 1;
-        }
-        
+        // if (bet == -5)
+        // {
+        //     numOfSpins = 3;
+        // }
+        // else if (bet <= -2)
+        // {
+        //     numOfSpins = 2;
+        // }
+        // else
+        // {
+        //     numOfSpins = 1;
+        // }
+        numOfSpins = 1;
         songEmitterRef.Play();
     }
 
@@ -82,6 +82,7 @@ public class slotManager : MonoBehaviour
             print(winning + winWord);
             screenText.text = winning + " " + winWord;
             numOfSpins--;
+            print("num of spins in report " + numOfSpins);
             if (winning > 0)
             {
                 ms.updateScore(false, winning);
@@ -89,6 +90,7 @@ public class slotManager : MonoBehaviour
             }
             if (numOfSpins <= 0)
             {
+                print("end slot in report");
                 endSlot();
             }
         }

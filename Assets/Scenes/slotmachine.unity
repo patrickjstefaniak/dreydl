@@ -1033,9 +1033,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7553055229047318419}
+  - {fileID: 507666616}
+  - {fileID: 1899741362}
   screenText: {fileID: 1529298812}
   mc: {fileID: 1414535764}
 --- !u!114 &1528824197
@@ -1053,11 +1053,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -630046546
-      Data2: 1206981388
-      Data3: -2079499598
-      Data4: -287750037
-    Path: event:/REELSpin
+      Data1: -506113148
+      Data2: 1083987972
+      Data3: 1338362777
+      Data4: -61479198
+    Path: event:/reelSpin
   Event: 
   PlayEvent: 0
   StopEvent: 0
@@ -1066,8 +1066,8 @@ MonoBehaviour:
   Preload: 0
   Params: []
   OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 0
 --- !u!114 &1528824198
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -45,7 +45,7 @@ public class reelSpin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((Input.GetKeyDown("space") || Input.GetKeyDown("f")) && canSpin)
+        if ((Input.GetKeyDown("f")) && canSpin)
         {
             print("start spin");
             startSpin();

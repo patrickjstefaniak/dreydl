@@ -21,7 +21,13 @@ public class mainscore : MonoBehaviour
     public GameObject winText;
     public GameObject previousOne;
     public GameObject previousTwo;
-
+    int[] pScores;
+    int totalPot;
+    public Text p1;
+    public Text p2;
+    public Text p3;
+    public Text p4;
+    public Text tp;
 
     int bet;
     int score;
@@ -31,7 +37,7 @@ public class mainscore : MonoBehaviour
         score = 18; 
         var emission = ps.emission;
         emission.rate = 0;
-        
+        pScores = new int[4];
         slotActive = false;
         previousOne.SetActive(true);
         previousTwo.SetActive(true);
@@ -52,7 +58,32 @@ public class mainscore : MonoBehaviour
         return bet;
     }
 
-  
+    public void scoreUiUpdate(int pot, int[] ps){
+        totalPot += pot;
+        pScores[0] += ps[0];
+        pScores[1] += ps[1];
+        pScores[2] += ps[2];
+        pScores[3] += ps[3];
+    }
+
+    public void updateScoreBoard(){
+        p1.text = "" +pScores[0];
+        p2.text = "" +pScores[1];
+        p3.text = "" +pScores[2];
+        p4.text = "" +pScores[3];
+        tp.text = "" +totalPot;
+        resetScoreCount();
+    }
+
+    public void resetScoreCount(){
+        totalPot = 0;
+        pScores[0] = 0;
+        pScores[1] = 0;
+        pScores[2] = 0;
+        pScores[3] = 0;
+    }
+
+
 
     public async void updateScore(bool isBet, int change){
         score += change;

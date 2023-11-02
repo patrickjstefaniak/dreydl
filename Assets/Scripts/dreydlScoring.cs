@@ -39,6 +39,7 @@ public class dreydlScoring : MonoBehaviour
     public GameObject ruleText;
     public List<GameObject> uiComponents = new List<GameObject>();
     string hebrewletter;
+    bool playerOut;
     
     // private FMOD.Studio.EventInstance instance;
     // Start is called before the first frame update
@@ -65,7 +66,7 @@ public class dreydlScoring : MonoBehaviour
                     
                 }else{
                     if(currentPlayer == 0){
-                        if (Input.GetKeyDown("space")){
+                        if (Input.GetKeyDown("f")){
                             dropIt();
                         }
                     }else{
@@ -73,8 +74,13 @@ public class dreydlScoring : MonoBehaviour
                         
                        
                         if (spinTimer <= 0){
-                            bSpin.dropIt();
-                            print("dropping again");
+                            if(playerOut){
+                                dgm.turnFinished();
+                            }else{
+                                bSpin.dropIt();
+                                print("dropping again");
+                            }
+                            
                             spinTimer = 99999;
                         }
                     }
@@ -119,10 +125,14 @@ public class dreydlScoring : MonoBehaviour
 
 
     void payAnte(){
+        int outs = 0;
         for(int i = 0; i < 4; i++){
             players[i] -= ante;
+            if(players[i] < 0){
+                outs ++;
+            }
         }
-        pot += ante * 4;
+        pot += ante * (4 - outs);
     }
 
     async void displayLetter(int letterNumber)
@@ -136,17 +146,36 @@ public class dreydlScoring : MonoBehaviour
     }
 
     void updateValues(){
-        playerT.text = "" + players[0];
-        player2T.text = "" + players[1];
-        player3T.text = "" + players[2];
-        player4T.text = "" + players[3];
+        if(players[0] >= 0){
+            playerT.text = "" + players[0];
+        }else{
+            playerT.text = "-";
+        }
+        if(players[1] >= 0){
+            player2T.text = "" + players[1];
+        }else{
+            player2T.text = "-";
+        }
+        if(players[2] >= 0){
+            player3T.text = "" + players[2];
+        }else{
+            player3T.text = "-";
+        }
+        if(players[3] >= 0){
+            player4T.text = "" + players[3];
+        }else{
+            player4T.text = "-";
+        }
         potT.text = "" + pot;
         ruleT.text = landedRule;
 
         sideT.text = lastSide;
+
+        mainscore.scoreUiUpdate(pot, players);
     }
 
     public void nextTurn(){
+        playerOut = false;
         if(!reverseOrder){
             currentPlayer += 1;
             if(currentPlayer > 3){
@@ -175,12 +204,19 @@ public class dreydlScoring : MonoBehaviour
                 currentPlayerT.text = "whoops";
                 break;
         }
+        dgm.setCurrentPlayer(currentPlayer);
+        //see if players turn is skipped for being below zero
+        if(players[currentPlayer] < 0){
+            //dgm.turnFinished();
+            playerOut = true;
+        }
         spinTimer = 999999;
         nextTurnTimer = Random.Range(nextTurnTimes[0], nextTurnTimes[1]);
         if(skipNextPlayer){
             skipNextPlayer = false;
             nextTurn();
         }
+        
     }
 
     //nothing

@@ -75,6 +75,7 @@ public class dreydlgamemanager : MonoBehaviour
         if (Input.GetKeyDown("f"))
         {
             print("Deal Draw");
+            dealdrawFlashing.SetActive(false);
             placeBet(0);
             //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
         }
@@ -219,6 +220,7 @@ public class dreydlgamemanager : MonoBehaviour
         print("hand finished");
         if (finishedhands >= hands)
         {
+            dealdrawFlashing.SetActive(false);
             if (Random.Range(0, 100) > 0)
             {
                 activateSlot();
@@ -232,25 +234,36 @@ public class dreydlgamemanager : MonoBehaviour
 
     public void startNextBet()
     {
+
         mode = "place bet";
         finishedhands = 0;
         finishedturns = 0;
         turnCountMod = 0;
     }
 
+    public void setCurrentPlayer(int p){
+        currentPlayer = p;
+    }
+
     public void turnFinished()
     {
         finishedturns++;
         print("turn finished");
+
         if (finishedturns >= hands - turnCountMod)
         {
             //next turn
+            
+            mainscore.updateScoreBoard();
             finishedturns = 0;
             print("start next turn");
             foreach (dreydlScoring ds in FindObjectsOfType<dreydlScoring>())
             {
                 ds.nextTurn();
                 turnCountMod = finishedhands;
+            }
+            if(currentPlayer == 0){
+                dealdrawFlashing.SetActive(true);
             }
         }
     }
@@ -286,6 +299,7 @@ public class dreydlgamemanager : MonoBehaviour
 
     public void activateSlot()
     {
+        dealdrawFlashing.SetActive(false);
         mode = "slot";
         SceneManager.LoadScene("slotmachine", LoadSceneMode.Additive);
     }
