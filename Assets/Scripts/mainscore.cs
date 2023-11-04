@@ -50,6 +50,13 @@ public class mainscore : MonoBehaviour
         
     }
 
+    public bool checkBet(int bet){
+        if(score - bet < 0){
+            return false;
+        }
+        return true;
+    }
+
     public int getScore(){
         return score;
     }

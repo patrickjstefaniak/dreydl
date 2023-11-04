@@ -29,6 +29,8 @@ public class dreydlgamemanager : MonoBehaviour
     public GameObject d15;
     float audioTimer;
     StudioEventEmitter voiceLines;
+    float timeOutTimer = 120;
+    public GameObject infunds;
 
     // Start is called before the first frame update
     async void Start()
@@ -128,6 +130,33 @@ public class dreydlgamemanager : MonoBehaviour
                 }
             }
         }
+
+
+        timeOutTimer -= Time.deltaTime;
+        if(Input.anyKey){
+            timeOutTimer = 120;
+        }
+        if(timeOutTimer <= 0){
+            hardReset();
+        }
+
+        if(Input.GetKeyDown(KeyCode.RightArrow) && Input.GetKeyDown(KeyCode.LeftArrow) && Input.GetKeyDown(KeyCode.UpArrow) && Input.GetKeyDown(KeyCode.DownArrow)){
+            hardReset();
+        }
+    }
+
+    async void  insufFunds(){
+        print("insufficient funds");
+        //FMODUnity.RuntimeManager.PlayOneShot("event:/");
+        infunds.SetActive(true);
+        
+        await Task.Delay(1000);
+        infunds.SetActive(false);
+    }
+
+    void hardReset(){
+        SceneManager.LoadScene("titleScreen", LoadSceneMode.Additive);
+        SceneManager.UnloadScene("dreydl_spin");
     }
 
     void resetAudioTimer()
@@ -146,12 +175,24 @@ public class dreydlgamemanager : MonoBehaviour
                 if (currentBet != 10)
                 {
                     //dreydlscoring.placeBet(currentBet);
+                    if(!mainscore.checkBet(currentBet * hands)){
+                        //play sound or something
+                        
+                        insufFunds();
+                        return;
+                    }
                     sendBets(currentBet);
                     mainscore.updateScore(true, -1 * currentBet * hands);
                 }
             }
             else
             {
+                if(!mainscore.checkBet( bet * hands)){
+                    //play sound or something
+                    
+                    insufFunds();
+                    return;
+                }
                 mainscore.updateScore(true, -1 * bet * hands);
                 currentBet = bet;
                 //dreydlscoring.placeBet(bet);
@@ -292,8 +333,7 @@ public class dreydlgamemanager : MonoBehaviour
             displayCashout(amount);
             mainscore.coinBust(amount, 17000);
             await Task.Delay(18000);
-            SceneManager.LoadScene("titleScreen", LoadSceneMode.Additive);
-            SceneManager.UnloadScene("dreydl_spin");
+            hardReset();
         }
     }
 
