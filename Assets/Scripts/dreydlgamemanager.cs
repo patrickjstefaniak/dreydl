@@ -151,7 +151,7 @@ public class dreydlgamemanager : MonoBehaviour
 
     async void  insufFunds(){
         print("insufficient funds");
-        //FMODUnity.RuntimeManager.PlayOneShot("event:/");
+        FMODUnity.RuntimeManager.PlayOneShot("event:/insufficient");
         infunds.SetActive(true);
         
         await Task.Delay(1000);
@@ -338,8 +338,10 @@ public class dreydlgamemanager : MonoBehaviour
             }
 
             if(amount <= 0){
-                cashOutZero.SetActive(true);    
-            }else{
+                cashOutZero.SetActive(true);
+                FMODUnity.RuntimeManager.PlayOneShot("event:/noMoney");
+            }
+            else{
                 //open cashout scene
                 print("cash out: " + cashhh);
                 FMODUnity.RuntimeManager.PlayOneShot("event:/cashOut");
