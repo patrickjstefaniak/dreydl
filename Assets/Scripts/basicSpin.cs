@@ -60,7 +60,7 @@ public class basicSpin : MonoBehaviour
         if(isSpinning){
             addSpin();
         }else{
-            if(!hasLanded && rb.angularVelocity.magnitude == 0 && rb.velocity.magnitude == 0){
+            if(!hasLanded && rb.angularVelocity.magnitude <= 0.02 && rb.velocity.magnitude <= 0.02){
                 //landedFace = ds.getFace();
                 landedFace = getFace();
                 hasLanded = true;
