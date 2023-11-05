@@ -262,6 +262,9 @@ public class dreydlScoring : MonoBehaviour
             //half
                 print("heh");
                 half = (int)Mathf.Floor(pot /2);
+                if(pot == 1){
+                    half = 1;
+                }
                 players[currentPlayer] += half;
                 pot -= half;
                 landedRule = "";
@@ -564,19 +567,34 @@ public class dreydlScoring : MonoBehaviour
                 break;
         }
 
+
+
         dgm = GameObject.Find("game manager").GetComponent<dreydlgamemanager>();
         previousT.text = hebrewletter + previousT.text;
         //see if round is over
-        if(pot == 0 || players[0] < 0){
+        print(landedLetter + transform.parent.parent.gameObject.name);
+        if(pot == 0 || players[0] < 0 || 
+                    (players[1] < 0 &&
+                    players[2] < 0 &&
+                    players[3] < 0)){
+            if(players[0] < 0){
+                players[0] = 0;
+            }
+            if(players[1] < 0 &&
+                    players[2] < 0 &&
+                    players[3] < 0){
+                players[0] += pot;
+            }
             isPlaying = false;
             mainscore.updateScore(false, players[0]);
             dgm.handFinished();
-            dgm.turnFinished();
+            //dgm.turnFinished();
             //mainscore.maybeStartSlot();
         }else{
             //nextTurn();
-            dgm.turnFinished();
+            
         }
+        dgm.turnFinished();
         updateValues();
         // if(pot < 1){
         //     payAnte();

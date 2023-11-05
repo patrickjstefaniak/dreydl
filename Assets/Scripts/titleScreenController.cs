@@ -18,8 +18,8 @@ public class titleScreenController : MonoBehaviour
         if (Input.GetKey("f") && isActive)
         {
             isActive = false;
-            SceneManager.LoadScene("dreydl_spin", LoadSceneMode.Additive);
-            SceneManager.UnloadScene("titleScreen");
+            SceneManager.LoadScene("dreydl_spin");
+            //SceneManager.UnloadScene("titleScreen");
         }
     }
 }

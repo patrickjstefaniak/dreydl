@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using FMODUnity;
@@ -31,6 +32,8 @@ public class dreydlgamemanager : MonoBehaviour
     StudioEventEmitter voiceLines;
     float timeOutTimer = 120;
     public GameObject infunds;
+    public GameObject[] cashoutoff;
+    public GameObject cashOutZero;
 
     // Start is called before the first frame update
     async void Start()
@@ -49,6 +52,7 @@ public class dreydlgamemanager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetKeyDown("1") || Input.GetMouseButtonDown(1))
         {
             placeBet(1);
@@ -155,13 +159,13 @@ public class dreydlgamemanager : MonoBehaviour
     }
 
     void hardReset(){
-        SceneManager.LoadScene("titleScreen", LoadSceneMode.Additive);
-        SceneManager.UnloadScene("dreydl_spin");
+        SceneManager.LoadScene("titleScreen");
+        ///SceneManager.UnloadScene("dreydl_spin");
     }
 
     void resetAudioTimer()
     {
-        audioTimer = Random.Range(2, 60);
+        audioTimer = UnityEngine.Random.Range(2, 60);
     }
 
     void placeBet(int bet)
@@ -198,7 +202,7 @@ public class dreydlgamemanager : MonoBehaviour
                 //dreydlscoring.placeBet(bet);
                 if (hands == 1)
                 {
-                    if (Random.Range(0, 100) > 80)
+                    if (UnityEngine.Random.Range(0, 100) > 80)
                     {
                         GameObject.Find("dreydl container").GetComponent<basicSpin>().set22(true);
                     }
@@ -258,11 +262,11 @@ public class dreydlgamemanager : MonoBehaviour
     public void handFinished()
     {
         finishedhands++;
-        print("hand finished");
+        print("hand finished: " + finishedhands);
         if (finishedhands >= hands)
         {
             dealdrawFlashing.SetActive(false);
-            if (Random.Range(0, 100) > 0)
+            if (UnityEngine.Random.Range(0, 100) > 90)
             {
                 activateSlot();
             }
@@ -277,6 +281,7 @@ public class dreydlgamemanager : MonoBehaviour
     {
 
         mode = "place bet";
+        placeBetText.SetActive(true);
         finishedhands = 0;
         finishedturns = 0;
         turnCountMod = 0;
@@ -289,7 +294,7 @@ public class dreydlgamemanager : MonoBehaviour
     public void turnFinished()
     {
         finishedturns++;
-        print("turn finished");
+        print("turn finished" + finishedturns + " " + turnCountMod);
 
         if (finishedturns >= hands - turnCountMod)
         {
@@ -297,11 +302,12 @@ public class dreydlgamemanager : MonoBehaviour
             
             mainscore.updateScoreBoard();
             finishedturns = 0;
+            turnCountMod = finishedhands;
             print("start next turn");
             foreach (dreydlScoring ds in FindObjectsOfType<dreydlScoring>())
             {
                 ds.nextTurn();
-                turnCountMod = finishedhands;
+                
             }
             if(currentPlayer == 0){
                 dealdrawFlashing.SetActive(true);
@@ -319,19 +325,36 @@ public class dreydlgamemanager : MonoBehaviour
 
     public async void cashOut(int amount)
     {
+        int cashhh = amount;
         mode = "cash out";
         if (isActive)
         {
             isActive = false;
-            //open cashout scene
-            print("cash out: " + amount);
-            FMODUnity.RuntimeManager.PlayOneShot("event:/cashOut");
-            string pdfFilePath = $"/Users/forest/Documents/Cash_Out_Voucher_DREYDL/{amount}.pdf";
-            PrintPDF.pdfFilePath = pdfFilePath;
-            GetComponent<PrintPDF>().Print();
-            cashoutGO.SetActive(true);
-            displayCashout(amount);
-            mainscore.coinBust(amount, 17000);
+            foreach(GameObject go in cashoutoff){
+                go.SetActive(false);
+            }
+            if(cashhh > 100){
+                cashhh = 100;
+            }
+
+            if(amount <= 0){
+                cashOutZero.SetActive(true);    
+            }else{
+                //open cashout scene
+                print("cash out: " + cashhh);
+                FMODUnity.RuntimeManager.PlayOneShot("event:/cashOut");
+                try{
+                    string pdfFilePath = $"/Users/forest/Documents/Cash_Out_Voucher_DREYDL/{cashhh}.pdf";
+                    PrintPDF.pdfFilePath = pdfFilePath;
+                    GetComponent<PrintPDF>().Print();
+                }catch(Exception ex){}
+               
+                cashoutGO.SetActive(true);
+                displayCashout(cashhh);
+                //mainscore.coinBust(cashhh, 17000);
+            }
+            
+            
             await Task.Delay(18000);
             hardReset();
         }

@@ -47,7 +47,12 @@ public class mainscore : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown("z")){
+            score = 0;
+        }
+        if(Input.GetKeyDown("h")){
+            score = 101;
+        }
     }
 
     public bool checkBet(int bet){
