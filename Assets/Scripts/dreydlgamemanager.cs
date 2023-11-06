@@ -40,6 +40,7 @@ public class dreydlgamemanager : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
+        previousMouse = Input.mousePosition;
         dealdrawFlashing.SetActive(false);
         isActive = true;
         mode = "not started";
@@ -241,6 +242,7 @@ public class dreydlgamemanager : MonoBehaviour
         if(Input.GetKeyDown("w") && Input.GetKeyDown("a") && Input.GetKeyDown("s") && Input.GetMouseButtonDown(1)){
             hardReset();
         }
+        previousMouse = Input.mousePosition;
     }
 
     async void maxBet(){
