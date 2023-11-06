@@ -171,6 +171,10 @@ public class dreydlScoring : MonoBehaviour
 
         sideT.text = lastSide;
 
+        //mainscore.scoreUiUpdate(pot, players);
+    }
+
+    public void sendScoreUi(){
         mainscore.scoreUiUpdate(pot, players);
     }
 

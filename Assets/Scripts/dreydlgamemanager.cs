@@ -36,6 +36,9 @@ public class dreydlgamemanager : MonoBehaviour
     public GameObject cashOutZero;
     public bool isMachineBuild;
     Vector3 previousMouse;
+    public GameObject rules;
+    public GameObject slotRules;
+    string prevMode;
 
     // Start is called before the first frame update
     async void Start()
@@ -120,6 +123,7 @@ public class dreydlgamemanager : MonoBehaviour
             if (mousedown)
             {
                 print("Call Attendant");
+                openRules();
                 //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
             }
             if (mouseleft)
@@ -182,9 +186,10 @@ public class dreydlgamemanager : MonoBehaviour
                 cashOut(mainscore.getScore());
                 // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
             }
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKeyDown("c"))
             {
                 print("Call Attendant");
+                openRules();
                 //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -239,10 +244,34 @@ public class dreydlgamemanager : MonoBehaviour
             hardReset();
         }
 
-        if(Input.GetKeyDown("w") && Input.GetKeyDown("a") && Input.GetKeyDown("s") && Input.GetMouseButtonDown(1)){
+        if(Input.GetKey("w") && Input.GetKey("a") && Input.GetKey("s")){
             hardReset();
         }
         previousMouse = Input.mousePosition;
+
+        if(mode == "rules" && (Input.anyKey || mouseup || mouseleft || mouseright) && !Input.GetKey("c") && !mousedown){
+            print("closing rules");
+            closeRules();
+        }
+    }
+
+    void openRules(){
+        prevMode = mode;
+        mode = "rules";
+        if(!rules.activeSelf){
+            rules.SetActive(true);
+        }else if(!slotRules.activeSelf){
+            slotRules.SetActive(true);
+        }else{
+            closeRules();
+        }
+
+    }
+
+    void closeRules(){
+        mode = prevMode;
+        rules.SetActive(false);
+        slotRules.SetActive(false);
     }
 
     async void maxBet(){
@@ -452,7 +481,7 @@ public class dreydlgamemanager : MonoBehaviour
 
     public void startNextBet()
     {
-
+        dealdrawFlashing.SetActive(false);
         mode = "place bet";
         placeBetText.SetActive(true);
         finishedhands = 0;
@@ -468,12 +497,12 @@ public class dreydlgamemanager : MonoBehaviour
     {
         finishedturns++;
         print("turn finished" + finishedturns + " " + turnCountMod);
-
+        mainscore.updateScoreBoard();
         if (finishedturns >= hands - turnCountMod)
         {
             //next turn
             
-            mainscore.updateScoreBoard();
+            
             finishedturns = 0;
             turnCountMod = finishedhands;
             print("start next turn");
@@ -494,6 +523,7 @@ public class dreydlgamemanager : MonoBehaviour
         {
             ds.placeBet(bet);
         }
+        mainscore.updateScoreBoard();
     }
 
     public async void cashOut(int amount)

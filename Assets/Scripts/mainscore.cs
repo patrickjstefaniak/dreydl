@@ -78,7 +78,15 @@ public class mainscore : MonoBehaviour
         pScores[3] += ps[3];
     }
 
+//updates total score ui at top of screen
     public void updateScoreBoard(){
+        resetScoreCount();
+
+        foreach (dreydlScoring ds in FindObjectsOfType<dreydlScoring>())
+        {
+            ds.sendScoreUi();
+        }
+
         p1.text = "" +pScores[0];
         p2.text = "" +pScores[1];
         p3.text = "" +pScores[2];
@@ -138,6 +146,8 @@ public class mainscore : MonoBehaviour
         }
     }
 
+
+//i dont think these are used anymore
     public async void maybeStartSlot(){
         if(Random.Range(0,100) > 100){
             slotActive = true;
