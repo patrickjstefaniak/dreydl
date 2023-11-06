@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/gameContainer.unity
     guid: 6e97925c845d82e45a400139d7189b3e
   - enabled: 1

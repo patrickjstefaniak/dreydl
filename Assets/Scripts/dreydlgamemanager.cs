@@ -34,6 +34,8 @@ public class dreydlgamemanager : MonoBehaviour
     public GameObject infunds;
     public GameObject[] cashoutoff;
     public GameObject cashOutZero;
+    public bool isMachineBuild;
+    Vector3 previousMouse;
 
     // Start is called before the first frame update
     async void Start()
@@ -52,70 +54,158 @@ public class dreydlgamemanager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool mouseup = false;
+        bool mousedown = false;
+        bool mouseleft = false;
+        bool mouseright = false;
+        Vector3 curMouse = Input.mousePosition;
 
-        if (Input.GetKeyDown("1") || Input.GetMouseButtonDown(1))
-        {
-            placeBet(1);
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+        if(curMouse.x != previousMouse.x){
+            if(curMouse.x > previousMouse.x){
+                mouseright = true;
+            }else{
+                mouseleft = true;
+            }
         }
-        if (Input.GetKeyDown("2") || (Input.GetKeyDown("w")))
-        {
-            placeBet(2);
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
-        }
-        if (Input.GetKeyDown("3") || (Input.GetKeyDown("a")))
-        {
-            placeBet(3);
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
-        }
-        if (Input.GetKeyDown("5") || (Input.GetKeyDown("s")))
-        {
-            placeBet(5);
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
-        }
-        if (Input.GetKeyDown("d"))
-        {
-            print("Max Bet");
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
-        }
-        if (Input.GetKeyDown("f"))
-        {
-            print("Deal Draw");
-            dealdrawFlashing.SetActive(false);
-            placeBet(0);
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+        if(curMouse.y != previousMouse.y){
+            if(curMouse.y > previousMouse.y){
+                mouseup = true;
+            }else{
+                mousedown = true;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            print("Cashout");
-            cashOut(mainscore.getScore());
-            // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            print("Call Attendant");
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            print("1 hand");
-            sethands(1);
-            // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            print("10 hands");
-            // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
-            sethands(10);
-        }
+        if(isMachineBuild){
+            if (Input.GetMouseButtonDown(1))
+            {
+                placeBet(1);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if ((Input.GetKeyDown("w")))
+            {
+                placeBet(2);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if ((Input.GetKeyDown("a")))
+            {
+                placeBet(3);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if ((Input.GetKeyDown("s")))
+            {
+                placeBet(5);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (Input.GetKeyDown("d"))
+            {
+                print("Max Bet");
+                maxBet();
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (Input.GetKeyDown("f"))
+            {
+                print("Deal Draw");
+                dealdrawFlashing.SetActive(false);
+                placeBet(0);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
 
-        //if (Input.GetMouseButtonDown(0))
-        if (Input.GetKeyDown("i"))
-        {
-            print("15 hands");
-            sethands(15);
-            // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            if (mouseup)
+            {
+                print("Cashout");
+                cashOut(mainscore.getScore());
+                // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (mousedown)
+            {
+                print("Call Attendant");
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (mouseleft)
+            {
+                print("1 hand");
+                sethands(1);
+                // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (mouseright)
+            {
+                print("10 hands");
+                // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+                sethands(10);
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                print("15 hands");
+                sethands(15);
+                // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+        }else{
+            if (Input.GetKeyDown("1") || Input.GetMouseButtonDown(1))
+            {
+                placeBet(1);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (Input.GetKeyDown("2") || (Input.GetKeyDown("w")))
+            {
+                placeBet(2);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (Input.GetKeyDown("3") || (Input.GetKeyDown("a")))
+            {
+                placeBet(3);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (Input.GetKeyDown("5") || (Input.GetKeyDown("s")))
+            {
+                placeBet(5);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (Input.GetKeyDown("d"))
+            {
+                print("Max Bet");
+                maxBet();
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (Input.GetKeyDown("f"))
+            {
+                print("Deal Draw");
+                dealdrawFlashing.SetActive(false);
+                placeBet(0);
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                print("Cashout");
+                cashOut(mainscore.getScore());
+                // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                print("Call Attendant");
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                print("1 hand");
+                sethands(1);
+                // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                print("10 hands");
+                // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+                sethands(10);
+            }
+
+            //if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown("i"))
+            {
+                print("15 hands");
+                sethands(15);
+                // FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
+            }
         }
 
         //while dreydl is spinning, possibly trigger audio to play
@@ -146,6 +236,87 @@ public class dreydlgamemanager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.RightArrow) && Input.GetKeyDown(KeyCode.LeftArrow) && Input.GetKeyDown(KeyCode.UpArrow) && Input.GetKeyDown(KeyCode.DownArrow)){
             hardReset();
+        }
+
+        if(Input.GetKeyDown("w") && Input.GetKeyDown("a") && Input.GetKeyDown("s") && Input.GetMouseButtonDown(1)){
+            hardReset();
+        }
+    }
+
+    async void maxBet(){
+
+        int curScore = mainscore.getScore();
+        print("curScore " + curScore);
+        // 15,30,45,75
+        // 10,20,30,50
+        // 1,2,3,5
+        if(curScore >= 75){
+            sethands(15);
+            mode = "spinning";
+            await Task.Delay(500);
+            mode = "place bet";
+            placeBet(5);
+        }else if(curScore >= 50){
+            sethands(10);
+            mode = "spinning";
+            await Task.Delay(500);
+            mode = "place bet";
+            placeBet(5);
+        }else if(curScore >= 45){
+            sethands(15);
+            mode = "spinning";
+            await Task.Delay(500);
+            mode = "place bet";
+            placeBet(3);
+        }else if(curScore >= 30){
+            sethands(10);
+            mode = "spinning";
+            await Task.Delay(500);
+            mode = "place bet";
+            placeBet(3);
+            mode = "spinning";
+        }else if(curScore >= 20){
+            sethands(10);
+            await Task.Delay(500);
+            mode = "place bet";
+            placeBet(2);
+            mode = "spinning";
+        }else if(curScore >= 15){
+            sethands(15);
+            mode = "spinning";
+            await Task.Delay(500);
+            mode = "place bet";
+            placeBet(1);
+        }else if(curScore >= 10){
+            sethands(10);
+            mode = "spinning";
+            await Task.Delay(500);
+            mode = "place bet";
+            placeBet(1);
+        }else if(curScore >= 5){
+            sethands(1);
+            mode = "spinning";
+            await Task.Delay(500);
+            mode = "place bet";
+            placeBet(5);
+        }else if(curScore >= 3){
+            sethands(1);
+            mode = "spinning";
+            await Task.Delay(500);
+            mode = "place bet";
+            placeBet(3);
+        }else if(curScore >= 2){
+            sethands(1);
+            mode = "spinning";
+            await Task.Delay(500);
+            mode = "place bet";
+            placeBet(2);
+        }else if(curScore >= 1){
+            sethands(1);
+            mode = "spinning";
+            await Task.Delay(500);
+            mode = "place bet";
+            placeBet(1);
         }
     }
 
