@@ -367,11 +367,12 @@ public class dreydlgamemanager : MonoBehaviour
 
     void resetAudioTimer()
     {
-        audioTimer = UnityEngine.Random.Range(2, 60);
+        audioTimer = UnityEngine.Random.Range(2, 45);
     }
 
     void placeBet(int bet)
     {
+        dealdrawFlashing.SetActive(false);
         if (mode == "place bet")
         {
             //bet is 0 when a repeat bet is made
@@ -468,7 +469,7 @@ public class dreydlgamemanager : MonoBehaviour
         if (finishedhands >= hands)
         {
             dealdrawFlashing.SetActive(false);
-            if (UnityEngine.Random.Range(0, 100) > 90)
+            if (UnityEngine.Random.Range(0, 100) > 80)
             {
                 activateSlot();
             }
@@ -495,6 +496,7 @@ public class dreydlgamemanager : MonoBehaviour
 
     public void turnFinished()
     {
+        dealdrawFlashing.SetActive(false);
         finishedturns++;
         print("turn finished" + finishedturns + " " + turnCountMod);
         mainscore.updateScoreBoard();
