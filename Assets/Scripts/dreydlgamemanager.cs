@@ -367,7 +367,7 @@ public class dreydlgamemanager : MonoBehaviour
 
     void resetAudioTimer()
     {
-        audioTimer = UnityEngine.Random.Range(2, 45);
+        audioTimer = UnityEngine.Random.Range(2, 50);
     }
 
     void placeBet(int bet)
@@ -469,7 +469,7 @@ public class dreydlgamemanager : MonoBehaviour
         if (finishedhands >= hands)
         {
             dealdrawFlashing.SetActive(false);
-            if (UnityEngine.Random.Range(0, 100) > 80)
+            if (UnityEngine.Random.Range(0, 100) > 85)
             {
                 activateSlot();
             }
