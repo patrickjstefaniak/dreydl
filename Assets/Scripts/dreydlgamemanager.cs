@@ -234,7 +234,7 @@ public class dreydlgamemanager : MonoBehaviour
 
         timeOutTimer -= Time.deltaTime;
         if(Input.anyKey){
-            timeOutTimer = 120;
+            timeOutTimer = 180;
         }
         if(timeOutTimer <= 0){
             hardReset();
@@ -256,20 +256,22 @@ public class dreydlgamemanager : MonoBehaviour
     }
 
     void openRules(){
-        prevMode = mode;
-        mode = "rules";
-        if(!rules.activeSelf){
-            rules.SetActive(true);
-        }else if(!slotRules.activeSelf){
-            slotRules.SetActive(true);
-        }else{
-            closeRules();
+        if(mode != "spinning"){
+            prevMode = mode;
+            mode = "rules";
+            if(!rules.activeSelf){
+                rules.SetActive(true);
+            }else if(!slotRules.activeSelf){
+                slotRules.SetActive(true);
+            }else{
+                closeRules();
+            }
         }
 
     }
 
     void closeRules(){
-        mode = prevMode;
+        mode = "place bet";
         rules.SetActive(false);
         slotRules.SetActive(false);
     }
