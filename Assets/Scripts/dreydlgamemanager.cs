@@ -175,7 +175,7 @@ public class dreydlgamemanager : MonoBehaviour
             if (Input.GetKeyDown("f"))
             {
                 print("Deal Draw");
-                dealdrawFlashing.SetActive(false);
+                //dealdrawFlashing.SetActive(false);
                 placeBet(0);
                 //FMODUnity.RuntimeManager.PlayOneShot("event:/buttonClick", GameObject.Find("dreydl").transform.position);
             }
@@ -392,6 +392,8 @@ public class dreydlgamemanager : MonoBehaviour
                     }
                     sendBets(currentBet);
                     mainscore.updateScore(true, -1 * currentBet * hands);
+                }else{
+                    return;
                 }
             }
             else
