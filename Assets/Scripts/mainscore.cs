@@ -14,7 +14,7 @@ public class mainscore : MonoBehaviour
     public dreydlgamemanager dgm;
     public dreydlScoring ds;
     public GameObject dreydlCamera;
-    public ParticleSystem ps;
+    //public ParticleSystem ps;
     bool slotActive;
     public List<GameObject> dreydlUI = new List<GameObject>();
     public GameObject slotFeature;
@@ -35,8 +35,8 @@ public class mainscore : MonoBehaviour
     void Start()
     {
         score = 18; 
-        var emission = ps.emission;
-        emission.rate = 0;
+        //var emission = ps.emission;
+        //emission.rate = 0;
         pScores = new int[4];
         slotActive = false;
         previousOne.SetActive(true);
@@ -126,7 +126,12 @@ public class mainscore : MonoBehaviour
                 previousOne.SetActive(false);
                 previousTwo.SetActive(false);
                 winText.SetActive(true);
-                coinBust(change, 2000);
+                if(change > 10){
+                    coinBust(change * 2, 5000);
+                }else{
+                    coinBust(change, 2000);
+                }
+                
                 if (change >= 1)
                 {
                     FMODUnity.RuntimeManager.PlayOneShot("event:/winCoins");
@@ -179,9 +184,16 @@ public class mainscore : MonoBehaviour
     }
 
     public async void coinBust(float win, int time){
-        var emission = ps.emission;
-        emission.rate = win;
+        GameObject[] pss = GameObject.FindGameObjectsWithTag("goldbust");
+        print("coinnn");
+        foreach(GameObject ps in pss){
+            var emission = ps.GetComponent<ParticleSystem>().emission;
+            emission.rate = win;
+        }
         await Task.Delay(time);
-        emission.rate = 0;
+        foreach(GameObject ps in pss){
+            var emission = ps.GetComponent<ParticleSystem>().emission;
+            emission.rate = 0;
+        }
     }
 }
