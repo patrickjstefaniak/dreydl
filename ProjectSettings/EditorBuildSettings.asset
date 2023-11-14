@@ -11,13 +11,16 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/gameContainer.unity
     guid: 6e97925c845d82e45a400139d7189b3e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/titleScreen.unity
     guid: d48458fb414c77244a8a67dfcdfd8244
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/dreydl_spin.unity
     guid: 948df50bcecf93440a7bbbe64ab34e75
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/slotmachine.unity
     guid: 1808a7bd4e448c943ba259c89a817eb8
+  - enabled: 1
+    path: Assets/Scenes/dreydlspinWeb.unity
+    guid: 55bd0caf955ebf945acb88af1b427be7
   m_configObjects: {}
