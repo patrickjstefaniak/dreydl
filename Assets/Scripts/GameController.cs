@@ -27,8 +27,9 @@ public class GameController : MonoBehaviour
     {
         if (guess >= 1 && guess <= 100)
         {
-            string pdfFilePath = $"/Users/forest/Documents/Cash_Out_Voucher_DREYDL/{guess}.pdf";
-            PrintPDF.pdfFilePath = pdfFilePath;
+           //string pdfFilePath = $"/Users/forest/Documents/Cash_Out_Voucher_DREYDL/{guess}.pdf";
+
+            PrintPDF.pdfFilePath = guess+"";
         }
 
 
