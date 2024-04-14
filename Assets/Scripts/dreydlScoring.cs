@@ -38,6 +38,7 @@ public class dreydlScoring : MonoBehaviour
     string landedRule;
     public GameObject ruleText;
     public List<GameObject> uiComponents = new List<GameObject>();
+    public List<GameObject> playerNames = new List<GameObject>();
     string hebrewletter;
     bool playerOut;
     
@@ -123,6 +124,26 @@ public class dreydlScoring : MonoBehaviour
         }
     }
 
+    public void TurnOnPlayerComponent(int index)
+    {
+        print("turning UI on");
+        if (index >= 0 && index < playerNames.Count)
+        {
+            playerNames[index].SetActive(true);
+            
+        }
+    }
+
+    public void TurnOffPlayerComponent(int index)
+    {
+        //print("turning UI off");
+        if (index >= 0 && index < playerNames.Count)
+        {
+            playerNames[index].SetActive(false);
+           
+        }
+    }
+
 
     void payAnte(){
         int outs = 0;
@@ -194,18 +215,35 @@ public class dreydlScoring : MonoBehaviour
         switch(currentPlayer){
             case 0: 
                 currentPlayerT.text = "You";
+                TurnOnPlayerComponent(0);
+                TurnOffPlayerComponent(1);
+                TurnOffPlayerComponent(2);
+                TurnOffPlayerComponent(3);
                 break;
             case 1: 
                 currentPlayerT.text = "Dvoyre";
+                TurnOnPlayerComponent(1);
+                TurnOffPlayerComponent(0);
+                TurnOffPlayerComponent(2);
+                TurnOffPlayerComponent(3);
                 break;
             case 2: 
                 currentPlayerT.text = "Meyer";
+                TurnOnPlayerComponent(2);
+                TurnOffPlayerComponent(0);
+                TurnOffPlayerComponent(1);
+                TurnOffPlayerComponent(3);
                 break;
             case 3: 
                 currentPlayerT.text = "Reb Dan";
+                TurnOnPlayerComponent(3);
+                TurnOffPlayerComponent(1);
+                TurnOffPlayerComponent(2);
+                TurnOffPlayerComponent(0);
                 break;
             default:
                 currentPlayerT.text = "whoops";
+              
                 break;
         }
         dgm.setCurrentPlayer(currentPlayer);
