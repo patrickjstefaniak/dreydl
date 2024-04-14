@@ -11,36 +11,38 @@ public class PrintPDF : MonoBehaviour
 
     public void Print()
     {
-/*
-        // Escape any double quotes in the file path
-        string escapedFilePath = pdfFilePath.Replace("\"", "\\\"");
+        print("printing????");
+        /*
+                // Escape any double quotes in the file path
+                string escapedFilePath = pdfFilePath.Replace("\"", "\\\"");
 
-        // Construct the lp command to print the PDF
-        string lpCommand = $"/usr/bin/lp -o landscape -o fit-to-page -o media=2x4in \"{escapedFilePath}\"";
+                // Construct the lp command to print the PDF
+                string lpCommand = $"/usr/bin/lp -o landscape -o fit-to-page -o media=2x4in \"{escapedFilePath}\"";
 
-        // Create a new process to run the lp command
-        Process process = new Process();
-        process.StartInfo.FileName = "/bin/bash"; // Terminal shell
-        process.StartInfo.Arguments = $"-c \"{lpCommand}\"";
-        process.StartInfo.UseShellExecute = false;
-        process.StartInfo.CreateNoWindow = true;
+                // Create a new process to run the lp command
+                Process process = new Process();
+                process.StartInfo.FileName = "/bin/bash"; // Terminal shell
+                process.StartInfo.Arguments = $"-c \"{lpCommand}\"";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.CreateNoWindow = true;
 
-        // Start the process
-        process.Start();
-        process.WaitForExit();
-        process.Close();
-        */
+                // Start the process
+                process.Start();
+                process.WaitForExit();
+                process.Close();
+                */
 
 
-        string path = @"C:\Users\dreydl\Desktop\Cashout_Vouchers\"+pdfFilePath+".pdf";
+        string path = @"C:\Users\dreydl\Desktop\Cashout_Vouchers\rotated\"+pdfFilePath+"_rotated.pdf";
         System.Diagnostics.Process process = new System.Diagnostics.Process();
         process.StartInfo.CreateNoWindow = true;
         process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
         process.StartInfo.UseShellExecute = true;
         process.StartInfo.FileName = path;
-        //process.StartInfo.Verb = "print";
+        process.StartInfo.Verb = "print";
 
         process.Start();
+        
         //process.WaitForExit();
 
 
