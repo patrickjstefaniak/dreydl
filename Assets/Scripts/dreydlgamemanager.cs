@@ -277,79 +277,80 @@ public class dreydlgamemanager : MonoBehaviour
     }
 
     async void maxBet(){
-
-        int curScore = mainscore.getScore();
-        print("curScore " + curScore);
-        // 15,30,45,75
-        // 10,20,30,50
-        // 1,2,3,5
-        if(curScore >= 75){
-            sethands(15);
-            mode = "spinning";
-            await Task.Delay(500);
-            mode = "place bet";
-            placeBet(5);
-        }else if(curScore >= 50){
-            sethands(10);
-            mode = "spinning";
-            await Task.Delay(500);
-            mode = "place bet";
-            placeBet(5);
-        }else if(curScore >= 45){
-            sethands(15);
-            mode = "spinning";
-            await Task.Delay(500);
-            mode = "place bet";
-            placeBet(3);
-        }else if(curScore >= 30){
-            sethands(10);
-            mode = "spinning";
-            await Task.Delay(500);
-            mode = "place bet";
-            placeBet(3);
-            mode = "spinning";
-        }else if(curScore >= 20){
-            sethands(10);
-            await Task.Delay(500);
-            mode = "place bet";
-            placeBet(2);
-            mode = "spinning";
-        }else if(curScore >= 15){
-            sethands(15);
-            mode = "spinning";
-            await Task.Delay(500);
-            mode = "place bet";
-            placeBet(1);
-        }else if(curScore >= 10){
-            sethands(10);
-            mode = "spinning";
-            await Task.Delay(500);
-            mode = "place bet";
-            placeBet(1);
-        }else if(curScore >= 5){
-            sethands(1);
-            mode = "spinning";
-            await Task.Delay(500);
-            mode = "place bet";
-            placeBet(5);
-        }else if(curScore >= 3){
-            sethands(1);
-            mode = "spinning";
-            await Task.Delay(500);
-            mode = "place bet";
-            placeBet(3);
-        }else if(curScore >= 2){
-            sethands(1);
-            mode = "spinning";
-            await Task.Delay(500);
-            mode = "place bet";
-            placeBet(2);
-        }else if(curScore >= 1){
-            sethands(1);
-            mode = "spinning";
-            await Task.Delay(500);
-            mode = "place bet";
-            placeBet(1);
+        if(mode == "place bet"){
+            int curScore = mainscore.getScore();
+            print("curScore " + curScore);
+            // 15,30,45,75
+            // 10,20,30,50
+            // 1,2,3,5
+            if(curScore >= 75){
+                sethands(15);
+                mode = "spinning";
+                await Task.Delay(500);
+                mode = "place bet";
+                placeBet(5);
+            }else if(curScore >= 50){
+                sethands(10);
+                mode = "spinning";
+                await Task.Delay(500);
+                mode = "place bet";
+                placeBet(5);
+            }else if(curScore >= 45){
+                sethands(15);
+                mode = "spinning";
+                await Task.Delay(500);
+                mode = "place bet";
+                placeBet(3);
+            }else if(curScore >= 30){
+                sethands(10);
+                mode = "spinning";
+                await Task.Delay(500);
+                mode = "place bet";
+                placeBet(3);
+                mode = "spinning";
+            }else if(curScore >= 20){
+                sethands(10);
+                await Task.Delay(500);
+                mode = "place bet";
+                placeBet(2);
+                mode = "spinning";
+            }else if(curScore >= 15){
+                sethands(15);
+                mode = "spinning";
+                await Task.Delay(500);
+                mode = "place bet";
+                placeBet(1);
+            }else if(curScore >= 10){
+                sethands(10);
+                mode = "spinning";
+                await Task.Delay(500);
+                mode = "place bet";
+                placeBet(1);
+            }else if(curScore >= 5){
+                sethands(1);
+                mode = "spinning";
+                await Task.Delay(500);
+                mode = "place bet";
+                placeBet(5);
+            }else if(curScore >= 3){
+                sethands(1);
+                mode = "spinning";
+                await Task.Delay(500);
+                mode = "place bet";
+                placeBet(3);
+            }else if(curScore >= 2){
+                sethands(1);
+                mode = "spinning";
+                await Task.Delay(500);
+                mode = "place bet";
+                placeBet(2);
+            }else if(curScore >= 1){
+                sethands(1);
+                mode = "spinning";
+                await Task.Delay(500);
+                mode = "place bet";
+                placeBet(1);
+            }
         }
     }
 
@@ -374,6 +375,7 @@ public class dreydlgamemanager : MonoBehaviour
 
     void placeBet(int bet)
     {
+        print("place bet mode " + mode);
         dealdrawFlashing.SetActive(false);
         if (mode == "place bet")
         {
