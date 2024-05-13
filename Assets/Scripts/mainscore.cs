@@ -30,7 +30,7 @@ public class mainscore : MonoBehaviour
     public Text tp;
 
     int bet;
-    int score;
+    public int score;
     // Start is called before the first frame update
     void Start()
     {
@@ -146,7 +146,7 @@ public class mainscore : MonoBehaviour
 
             }
         }
-        if(score <= 0){
+        if(score < 0){
             dgm.cashOut(0);
         }
     }
