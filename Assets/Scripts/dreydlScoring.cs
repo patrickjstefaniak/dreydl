@@ -514,7 +514,7 @@ public class dreydlScoring : MonoBehaviour
                 landedLetter = "Ayen";
                 hebrewletter = "ע";
                 landedRule = "Iber-Yor - Skip next players turn";
-                skipNextPlayer = true;
+                //skipNextPlayer = true;
                
                     break;
             case "Fey":
@@ -573,7 +573,7 @@ public class dreydlScoring : MonoBehaviour
                 hebrewletter = "ר";
                 landedRule = "Rotirn - Reverse turn order";
 
-                reverseOrder = true;
+                //reverseOrder = true;
                 
                     break;
             case "Tof":

@@ -41,7 +41,7 @@ public class mainscore : MonoBehaviour
         slotActive = false;
         previousOne.SetActive(true);
         previousTwo.SetActive(true);
-
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
