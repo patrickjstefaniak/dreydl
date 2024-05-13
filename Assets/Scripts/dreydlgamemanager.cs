@@ -558,7 +558,7 @@ public class dreydlgamemanager : MonoBehaviour
                     //string pdfFilePath = $"/Users/forest/Documents/Cash_Out_Voucher_DREYDL/{cashhh}.pdf";
                     //PrintPDF.pdfFilePath = pdfFilePath;
                     //GetComponent<PrintPDF>().Print();
-                    string path = @"C:\Users\dreydl\Desktop\Cashout_Vouchers\rotated\" + cashhh + "_rotated.pdf";
+                    string path = @"C:\Users\DREYDL\Desktop\Cashout_Vouchers\rotated\" + cashhh + "_rotated.pdf";
                     System.Diagnostics.Process process = new System.Diagnostics.Process();
                     process.StartInfo.CreateNoWindow = true;
                     process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
