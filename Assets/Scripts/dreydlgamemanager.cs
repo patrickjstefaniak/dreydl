@@ -39,6 +39,7 @@ public class dreydlgamemanager : MonoBehaviour
     public GameObject rules;
     public GameObject slotRules;
     string prevMode;
+    float openMenuDebounce = 0;
 
     // Start is called before the first frame update
     async void Start()
@@ -63,6 +64,8 @@ public class dreydlgamemanager : MonoBehaviour
         bool mouseleft = false;
         bool mouseright = false;
         Vector3 curMouse = Input.mousePosition;
+
+        openMenuDebounce -= Time.deltaTime;
 
         if(curMouse.x != previousMouse.x){
             if(curMouse.x > previousMouse.x){
@@ -256,17 +259,21 @@ public class dreydlgamemanager : MonoBehaviour
     }
 
     void openRules(){
-        if(mode != "spinning"){
-            prevMode = mode;
-            mode = "rules";
-            if(!rules.activeSelf){
-                rules.SetActive(true);
-            }else if(!slotRules.activeSelf){
-                slotRules.SetActive(true);
-            }else{
-                closeRules();
+        if(openMenuDebounce <= 0){
+            if(mode != "spinning"){
+                prevMode = mode;
+                mode = "rules";
+                if(!rules.activeSelf){
+                    rules.SetActive(true);
+                }else if(!slotRules.activeSelf){
+                    slotRules.SetActive(true);
+                }else{
+                    closeRules();
+                }
+                openMenuDebounce = 1;
             }
         }
+        
 
     }
 
